@@ -2,7 +2,7 @@
 
 A comprehensive, interactive, and visually stunning German language dictionary and learning platform designed for Arabic speakers. This project combines a robust A1-B2 vocabulary database with a premium, modern user interface featuring 3D animations.
 
-![Project Preview](public/placeholder.svg?height=400&width=800&query=modern%20dark%20dictionary%20interface%20preview)
+
 
 ## ✨ Features
 
