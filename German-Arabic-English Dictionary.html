@@ -1,862 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>German Learning Hub - A1.1 to B2.2 Dictionary & Course</title>
+    <title>German-Arabic-English Dictionary | A1-B2 Master Course</title>
+    <meta name="description" content="Comprehensive German-Arabic-English Dictionary and Learning Hub A1-B2">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="German-Arabic-English Dictionary.css">
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <a href="#" class="logo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                German Hub
-            </a>
-            <div class="nav-controls">
-                <div class="language-toggle">
-                    <button class="lang-btn active" data-lang="de" aria-label="German only">DE</button>
-                    <button class="lang-btn" data-lang="de-ar" aria-label="German with Arabic">DE+AR</button>
-                    <button class="lang-btn" data-lang="de-ar-en" aria-label="German, Arabic and English">DE+AR+EN</button>
-                </div>
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Search vocabulary..." id="searchInput" aria-label="Search vocabulary">
-                </div>
-                <div class="social-links">
-                    <a href="https://www.instagram.com/a._.xell_/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram" title="Follow on Instagram">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
-                        </svg>
-                    </a>
-                    <a href="https://github.com/ALaksell" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="GitHub" title="View on GitHub">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                    </a>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="scene"></canvas>
+    
+    <!-- Overlay Gradient -->
+    <div class="overlay"></div>
+
+    <div class="app-container">
+        <!-- Header & Branding -->
+        <header class="glass-header">
+            <div class="brand">
+                <div class="logo-text">
+                    <h1>DE<span class="highlight">Dictionary</span></h1>
+                    <span class="tagline">Master German A1-B2</span>
                 </div>
             </div>
-        </div>
-    </header>
+            
+            <div class="creator-links">
+                <span class="watermark">Created by <strong>aksell</strong></span>
+                <a href="https://github.com/ALaksell" target="_blank" aria-label="GitHub" class="social-btn github">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.instagram.com/a._.xell_/" target="_blank" aria-label="Instagram" class="social-btn instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </header>
 
-    <div class="container">
-        <!-- Level Selector -->
-        <div class="level-selector">
-            <button class="level-btn active" data-level="a1-1">A1.1</button>
-            <button class="level-btn" data-level="a1-2">A1.2</button>
-            <button class="level-btn" data-level="a2-1">A2.1</button>
-            <button class="level-btn" data-level="a2-2">A2.2</button>
-            <button class="level-btn" data-level="b1-1">B1.1</button>
-            <button class="level-btn" data-level="b1-2">B1.2</button>
-            <button class="level-btn" data-level="b2-1">B2.1</button>
-            <button class="level-btn" data-level="b2-2">B2.2</button>
-        </div>
+        <!-- Level Navigation -->
+        <nav class="level-nav">
+            <button class="level-btn active" data-level="A1">
+                <span class="lvl-code">A1</span>
+                <span class="lvl-name">Beginner</span>
+                <div class="glow"></div>
+            </button>
+            <button class="level-btn" data-level="A2">
+                <span class="lvl-code">A2</span>
+                <span class="lvl-name">Elementary</span>
+                <div class="glow"></div>
+            </button>
+            <button class="level-btn" data-level="B1">
+                <span class="lvl-code">B1</span>
+                <span class="lvl-name">Intermediate</span>
+                <div class="glow"></div>
+            </button>
+            <button class="level-btn" data-level="B2">
+                <span class="lvl-code">B2</span>
+                <span class="lvl-name">Upper Int.</span>
+                <div class="glow"></div>
+            </button>
+        </nav>
 
-        <!-- A1.1 Content -->
-        <div class="level-content active" data-level="a1-1">
-            <!-- Syllabus -->
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level A1.1 - Syllabus & Objectives</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p><strong>Learning Objectives:</strong></p>
-                    <ul style="margin-left: 1.5rem; margin-top: 1rem; line-height: 2;">
-                        <li>Greet and introduce yourself in German</li>
-                        <li>Ask and understand basic personal information</li>
-                        <li>Count from 0-20 and understand basic numbers</li>
-                        <li>Identify days, months, and basic time expressions</li>
-                        <li>Name common objects and family members</li>
-                        <li>Use present tense of "sein" and "haben"</li>
-                        <li>Form simple sentences with basic word order</li>
-                        <li>Understand and respond to basic questions</li>
-                    </ul>
-                </div>
+        <!-- Main Content Area -->
+        <main id="main-content" class="glass-panel">
+            
+            <!-- Level Header Info -->
+            <div class="level-info">
+                <h2 id="current-level-title">Level A1: The Foundation</h2>
+                <p id="current-level-desc">Essential vocabulary for everyday survival, greetings, and basic needs.</p>
             </div>
 
-            <!-- Vocabulary -->
-            <div class="section">
-                <div class="section-header">
-                    <h3>📖 Core Vocabulary</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
+            <!-- Added Search Box for better navigation of large content -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="dict-search" placeholder="Search dictionary (German, English, or Arabic)...">
+            </div>
+
+            <!-- View Toggle (Dictionary vs Exercises) -->
+            <div class="view-toggle">
+                <button class="toggle-btn active" data-view="dictionary">
+                    <i class="fas fa-book"></i> Dictionary
+                </button>
+                <button class="toggle-btn" data-view="exercises">
+                    <i class="fas fa-pen-to-square"></i> Quick Exercises
+                </button>
+            </div>
+
+            <!-- Dictionary View -->
+            <div id="dictionary-view" class="content-view active">
+                <div class="table-wrapper">
                     <table class="dict-table">
                         <thead>
                             <tr>
-                                <th>German</th>
-                                <th class="text-ar-phonetic">Arabic Pronunciation</th>
-                                <th class="text-en">English</th>
-                                <th>Arabic Meaning</th>
+                                <th class="col-de">German <i class="fas fa-volume-high tiny-icon"></i></th>
+                                <th class="col-pron-en">Pronunciation (EN)</th>
+                                <th class="col-pron-ar" dir="rtl">النطق (عربي)</th>
+                                <th class="col-en">English</th>
+                                <th class="col-ar" dir="rtl">العربية</th>
+                                <th class="col-ex">Example / Beispiel</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td class="word-german">Hallo</td>
-                                <td class="text-ar-phonetic word-phonetic">هالو</td>
-                                <td class="text-en word-phonetic">Hello</td>
-                                <td>مرحبا</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Guten Morgen</td>
-                                <td class="text-ar-phonetic word-phonetic">جوتن مورجن</td>
-                                <td class="text-en word-phonetic">Good morning</td>
-                                <td>صباح الخير</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Guten Tag</td>
-                                <td class="text-ar-phonetic word-phonetic">جوتن تاج</td>
-                                <td class="text-en word-phonetic">Good afternoon</td>
-                                <td>مساء الخير</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Guten Abend</td>
-                                <td class="text-ar-phonetic word-phonetic">جوتن آبنت</td>
-                                <td class="text-en word-phonetic">Good evening</td>
-                                <td>مساء الخير</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Auf Wiedersehen</td>
-                                <td class="text-ar-phonetic word-phonetic">أوف فيدرزيَن</td>
-                                <td class="text-en word-phonetic">Goodbye</td>
-                                <td>إلى اللقاء</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Wie heißt du?</td>
-                                <td class="text-ar-phonetic word-phonetic">في هايست دو</td>
-                                <td class="text-en word-phonetic">What is your name?</td>
-                                <td>ما اسمك؟</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Ich heiße</td>
-                                <td class="text-ar-phonetic word-phonetic">إش هايسه</td>
-                                <td class="text-en word-phonetic">My name is</td>
-                                <td>اسمي هو</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Wie geht es dir?</td>
-                                <td class="text-ar-phonetic word-phonetic">في جيت إس دير</td>
-                                <td class="text-en word-phonetic">How are you?</td>
-                                <td>كيف حالك؟</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Gut, danke</td>
-                                <td class="text-ar-phonetic word-phonetic">جوت، دانكه</td>
-                                <td class="text-en word-phonetic">I'm fine, thanks</td>
-                                <td>بخير، شكراً</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Danke</td>
-                                <td class="text-ar-phonetic word-phonetic">دانكه</td>
-                                <td class="text-en word-phonetic">Thank you</td>
-                                <td>شكراً</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Bitte</td>
-                                <td class="text-ar-phonetic word-phonetic">بيتَه</td>
-                                <td class="text-en word-phonetic">Please / You're welcome</td>
-                                <td>من فضلك / على الرحب</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Ja</td>
-                                <td class="text-ar-phonetic word-phonetic">يا</td>
-                                <td class="text-en word-phonetic">Yes</td>
-                                <td>نعم</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Nein</td>
-                                <td class="text-ar-phonetic word-phonetic">ناين</td>
-                                <td class="text-en word-phonetic">No</td>
-                                <td>لا</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Entschuldigung</td>
-                                <td class="text-ar-phonetic word-phonetic">إنتشولديجونج</td>
-                                <td class="text-en word-phonetic">Excuse me / Sorry</td>
-                                <td>عذراً / المعذرة</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Bett</td>
-                                <td class="text-ar-phonetic word-phonetic">بيت</td>
-                                <td class="text-en word-phonetic">Bed</td>
-                                <td>سرير</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Tisch</td>
-                                <td class="text-ar-phonetic word-phonetic">تيش</td>
-                                <td class="text-en word-phonetic">Table</td>
-                                <td>طاولة</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Stuhl</td>
-                                <td class="text-ar-phonetic word-phonetic">شتول</td>
-                                <td class="text-en word-phonetic">Chair</td>
-                                <td>كرسي</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Fenster</td>
-                                <td class="text-ar-phonetic word-phonetic">فينستر</td>
-                                <td class="text-en word-phonetic">Window</td>
-                                <td>نافذة</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Tür</td>
-                                <td class="text-ar-phonetic word-phonetic">تور</td>
-                                <td class="text-en word-phonetic">Door</td>
-                                <td>باب</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Haus</td>
-                                <td class="text-ar-phonetic word-phonetic">هاوس</td>
-                                <td class="text-en word-phonetic">House</td>
-                                <td>بيت</td>
-                            </tr>
+                        <tbody id="dictionary-body">
+                            <!-- Content injected via JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Grammar -->
-            <div class="section">
-                <div class="section-header">
-                    <h3>✏️ Grammar Essentials</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="grammar-box">
-                        <h4>Verb "sein" (to be)</h4>
-                        <p><code>ich bin</code> - إش بِن - I am<br>
-                           <code>du bist</code> - دو بِست - you are<br>
-                           <code>er/sie/es ist</code> - هو/هي يكون - he/she/it is<br>
-                           <code>wir sind</code> - نحن نكون - we are</p>
-                        <div class="example">
-                            <strong>Example:</strong> Ich bin Anna. (I am Anna.) - إش بِن آنا
-                        </div>
-                    </div>
-
-                    <div class="grammar-box">
-                        <h4>Verb "haben" (to have)</h4>
-                        <p><code>ich habe</code> - أملك - I have<br>
-                           <code>du hast</code> - تملك - you have<br>
-                           <code>er/sie/es hat</code> - يملك - he/she/it has<br>
-                           <code>wir haben</code> - نملك - we have</p>
-                        <div class="example">
-                            <strong>Example:</strong> Ich habe einen Hund. (I have a dog.) - إش هابَه آينن هوند
-                        </div>
-                    </div>
-
-                    <div class="grammar-box">
-                        <h4>Basic Word Order</h4>
-                        <p>German main clauses follow: <code>Subject - Verb - Object</code></p>
-                        <div class="example">
-                            <strong>Example:</strong> Ich lerne Deutsch. (I learn German.) - إش ليرنَه دويتش
-                        </div>
-                    </div>
+            <!-- Exercises View -->
+            <div id="exercises-view" class="content-view">
+                <div class="exercises-container" id="exercises-container">
+                    <!-- Exercises injected via JS -->
                 </div>
             </div>
 
-            <!-- Exercises -->
-            <div class="section">
-                <div class="section-header">
-                    <h3>🎯 Interactive Exercises</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="exercise">
-                        <h4>Exercise 1: Multiple Choice - Greetings</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Select the correct German greeting for "Good morning":</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'The correct answer is Guten Morgen')">Guten Abend</button>
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Guten Morgen means Good morning')">Guten Morgen</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'The correct answer is Guten Morgen')">Gute Nacht</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'The correct answer is Guten Morgen')">Auf Wiedersehen</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 2: Matching - Match German to English</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Match the German word with its English translation:</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Tisch = Table')">Tisch → Table</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Tisch means Table, not Chair')">Tisch → Chair</button>
-                            </div>
-                            <div class="exercise-options" style="margin-top: 1rem;">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Stuhl = Chair')">Stuhl → Chair</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Stuhl means Chair, not Window')">Stuhl → Window</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 3: Fill in the Blank</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Complete the sentence: "Ich _____ Anna":</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Ich bin Anna (I am Anna)')">bin</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use bin with ich')">bist</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use bin with ich')">ist</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 4: Translate to German</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Translate: "I have a house" (Ich _____ ein Haus):</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Ich habe ein Haus')">habe</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use habe with ich')">hat</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use habe with ich')">habt</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 5: Listening Comprehension (Text-based)</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">What does "Wie heißt du?" mean?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That means Good morning')">Good morning</button>
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! That means What is your name?')">What is your name?</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That means How are you')">How are you?</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 6: Dialogue Ordering</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">What's the correct response to "Wie geht es dir?"</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Gut, danke is the proper response')">Gut, danke</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'That means my name is, not a response')">Ich heiße...</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'That means goodbye')">Auf Wiedersehen</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 7: Verb Conjugation</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Choose the correct form: "Du _____ Müller":</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use bist with du')">bin</button>
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Du bist Müller')">bist</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use bist with du')">ist</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 8: Object Recognition</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Which of these is a piece of furniture?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! A Stuhl (chair) is furniture')">Stuhl</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'That means dog')">Hund</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'That means coffee')">Kaffee</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cheatsheet -->
-            <div class="section">
-                <div class="section-header">
-                    <h3>📋 Revision Cheatsheet</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="cheatsheet">
-                        <div class="cheatsheet-card">
-                            <h5>🔤 Pronouns</h5>
-                            <p>ich = I<br>du = you<br>er/sie/es = he/she/it<br>wir = we</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>🎯 sein (to be)</h5>
-                            <p>bin, bist, ist, sind<br>Essential for introducing yourself</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>📦 haben (to have)</h5>
-                            <p>habe, hast, hat, haben<br>For possession</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>💬 Key Phrases</h5>
-                            <p>Hallo, Guten Morgen<br>Wie heißt du?<br>Danke schön</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>🏠 Objects</h5>
-                            <p>Tisch, Stuhl, Tür<br>Fenster, Haus, Bett</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>✅ Tips</h5>
-                            <p>German nouns have gender<br>Always capitalize nouns<br>Practice pronunciation daily</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- A1.2 Content -->
-        <div class="level-content" data-level="a1-2">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level A1.2 - Syllabus & Objectives</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p><strong>Learning Objectives:</strong></p>
-                    <ul style="margin-left: 1.5rem; margin-top: 1rem; line-height: 2;">
-                        <li>Describe family members and relationships</li>
-                        <li>Tell time and talk about daily activities</li>
-                        <li>Order food and drinks at a restaurant</li>
-                        <li>Count from 0-100</li>
-                        <li>Ask and answer questions about occupation</li>
-                        <li>Use simple present tense with regular verbs</li>
-                        <li>Describe colors and basic physical appearance</li>
-                        <li>Make simple statements about likes and dislikes</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <h3>📖 Core Vocabulary - Family & Professions</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <table class="dict-table">
-                        <thead>
-                            <tr>
-                                <th>German</th>
-                                <th class="text-ar-phonetic">Arabic Pronunciation</th>
-                                <th class="text-en">English</th>
-                                <th>Arabic Meaning</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="word-german">die Familie</td>
-                                <td class="text-ar-phonetic word-phonetic">دي فاميليَه</td>
-                                <td class="text-en word-phonetic">family</td>
-                                <td>العائلة</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">der Vater</td>
-                                <td class="text-ar-phonetic word-phonetic">دير فاتر</td>
-                                <td class="text-en word-phonetic">father</td>
-                                <td>الأب</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">die Mutter</td>
-                                <td class="text-ar-phonetic word-phonetic">دي موتر</td>
-                                <td class="text-en word-phonetic">mother</td>
-                                <td>الأم</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">der Bruder</td>
-                                <td class="text-ar-phonetic word-phonetic">دير برودر</td>
-                                <td class="text-en word-phonetic">brother</td>
-                                <td>الأخ</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">die Schwester</td>
-                                <td class="text-ar-phonetic word-phonetic">دي شفستر</td>
-                                <td class="text-en word-phonetic">sister</td>
-                                <td>الأخت</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">der Lehrer</td>
-                                <td class="text-ar-phonetic word-phonetic">دير ليرر</td>
-                                <td class="text-en word-phonetic">teacher</td>
-                                <td>المعلم</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">der Arzt</td>
-                                <td class="text-ar-phonetic word-phonetic">دير أرتست</td>
-                                <td class="text-en word-phonetic">doctor</td>
-                                <td>الطبيب</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">der Ingenieur</td>
-                                <td class="text-ar-phonetic word-phonetic">دير إنجنيور</td>
-                                <td class="text-en word-phonetic">engineer</td>
-                                <td>المهندس</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">die Köchin</td>
-                                <td class="text-ar-phonetic word-phonetic">دي كوشِن</td>
-                                <td class="text-en word-phonetic">cook (female)</td>
-                                <td>الطاهية</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">der Koch</td>
-                                <td class="text-ar-phonetic word-phonetic">دير كوخ</td>
-                                <td class="text-en word-phonetic">cook (male)</td>
-                                <td>الطاهي</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Ich bin Lehrer</td>
-                                <td class="text-ar-phonetic word-phonetic">إش بِن ليرر</td>
-                                <td class="text-en word-phonetic">I am a teacher</td>
-                                <td>أنا معلم</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Was ist dein Beruf?</td>
-                                <td class="text-ar-phonetic word-phonetic">فاس إِست داين بيروف</td>
-                                <td class="text-en word-phonetic">What is your profession?</td>
-                                <td>ما مهنتك؟</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Ich arbeite</td>
-                                <td class="text-ar-phonetic word-phonetic">إش أربايتَه</td>
-                                <td class="text-en word-phonetic">I work</td>
-                                <td>أنا أعمل</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Ich mag</td>
-                                <td class="text-ar-phonetic word-phonetic">إش ماج</td>
-                                <td class="text-en word-phonetic">I like</td>
-                                <td>أنا أحب</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">Ich mag nicht</td>
-                                <td class="text-ar-phonetic word-phonetic">إش ماج نِشت</td>
-                                <td class="text-en word-phonetic">I don't like</td>
-                                <td>أنا لا أحب</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">rot</td>
-                                <td class="text-ar-phonetic word-phonetic">روت</td>
-                                <td class="text-en word-phonetic">red</td>
-                                <td>أحمر</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">blau</td>
-                                <td class="text-ar-phonetic word-phonetic">بلاو</td>
-                                <td class="text-en word-phonetic">blue</td>
-                                <td>أزرق</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">grün</td>
-                                <td class="text-ar-phonetic word-phonetic">جرون</td>
-                                <td class="text-en word-phonetic">green</td>
-                                <td>أخضر</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">gelb</td>
-                                <td class="text-ar-phonetic word-phonetic">جيلب</td>
-                                <td class="text-en word-phonetic">yellow</td>
-                                <td>أصفر</td>
-                            </tr>
-                            <tr>
-                                <td class="word-german">schwarz</td>
-                                <td class="text-ar-phonetic word-phonetic">شفارتس</td>
-                                <td class="text-en word-phonetic">black</td>
-                                <td>أسود</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <h3>✏️ Grammar Essentials - Regular Verbs</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="grammar-box">
-                        <h4>Regular Verb Conjugation: lernen (to learn)</h4>
-                        <p><code>ich lerne</code> - أتعلم<br>
-                           <code>du lernst</code> - تتعلم<br>
-                           <code>er/sie/es lernt</code> - يتعلم<br>
-                           <code>wir lernen</code> - نتعلم<br>
-                           <code>ihr lernt</code> - تتعلمون<br>
-                           <code>sie/Sie lernen</code> - يتعلمون</p>
-                        <div class="example">
-                            <strong>Example:</strong> Ich lerne Deutsch. (I learn German.) - إش ليرنَه دويتش
-                        </div>
-                    </div>
-
-                    <div class="grammar-box">
-                        <h4>Verb "mögen" (to like) - modal verb</h4>
-                        <p><code>ich mag</code> - أحب<br>
-                           <code>du magst</code> - تحب<br>
-                           <code>er/sie/es mag</code> - يحب<br>
-                           <code>wir mögen</code> - نحب</p>
-                        <div class="example">
-                            <strong>Example:</strong> Ich mag Kaffee. (I like coffee.) - إش ماج كافيه
-                        </div>
-                    </div>
-
-                    <div class="grammar-box">
-                        <h4>Gender & Articles</h4>
-                        <p><code>der</code> = masculine (the)<br>
-                           <code>die</code> = feminine (the)<br>
-                           <code>das</code> = neuter (the)<br>
-                           <code>ein/eine</code> = indefinite article (a/an)</p>
-                        <div class="example">
-                            <strong>Example:</strong> der Mann (the man), die Frau (the woman), das Bild (the picture)
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <h3>🎯 Interactive Exercises</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="exercise">
-                        <h4>Exercise 1: Family Vocabulary</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">What does "Vater" mean?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Vater means father')">Father</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Mutter means mother')">Mother</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Bruder means brother')">Brother</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 2: Color Matching</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Which German word means "red"?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Blau means blue')">blau</button>
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Rot means red')">rot</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Grün means green')">grün</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 3: Verb Conjugation</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Choose correct: "Sie _____ Lehrerin":</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Sie ist Lehrerin')">ist</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use ist with sie')">bin</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Use ist with sie')">bist</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 4: Profession Translation</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Translate: "Ich bin Arzt" (I am...):</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Arzt means doctor')">a doctor</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Lehrer means teacher')">a teacher</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Ingenieur means engineer')">an engineer</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 5: Like/Dislike</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">What does "Ich mag nicht Kaffee" mean?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! This means I don\'t like coffee')">I don't like coffee</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Ich mag means I like')">I like coffee</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That\'s a different meaning')">I have coffee</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 6: Article Gender</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">Which is the correct article for "Frau" (woman)?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Der is masculine')">der</button>
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Die Frau is feminine')">die</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. Das is neuter')">das</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 7: Occupation Question</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">How do you ask someone's profession?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Was ist dein Beruf?')">Was ist dein Beruf?</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That means what is your name')">Wie heißt du?</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That means where are you from')">Woher kommst du?</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-
-                    <div class="exercise">
-                        <h4>Exercise 8: Family Member</h4>
-                        <div class="exercise-question">
-                            <span class="exercise-label">What is the female version of "Lehrer" (teacher)?</span>
-                            <div class="exercise-options">
-                                <button class="option-btn" onclick="checkAnswer(this, true, 'Correct! Lehrerin is female teacher')">Lehrerin</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That\'s still male')">Lehrer</button>
-                                <button class="option-btn" onclick="checkAnswer(this, false, 'Incorrect. That means doctor')">Ärztin</button>
-                            </div>
-                            <div class="feedback"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-header">
-                    <h3>📋 Revision Cheatsheet</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <div class="cheatsheet">
-                        <div class="cheatsheet-card">
-                            <h5>👨‍👩‍👧 Family</h5>
-                            <p>Vater, Mutter, Bruder<br>Schwester, Familie</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>💼 Professions</h5>
-                            <p>Lehrer, Arzt, Ingenieur<br>Koch, Krankenschwester</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>🎨 Colors</h5>
-                            <p>rot, blau, grün, gelb<br>schwarz, weiß</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>💬 Key Phrases</h5>
-                            <p>Ich bin... (I am)<br>Was ist dein Beruf?<br>Ich mag / Ich mag nicht</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>📚 Grammar</h5>
-                            <p>der = masculine<br>die = feminine<br>das = neuter</p>
-                        </div>
-                        <div class="cheatsheet-card">
-                            <h5>✅ Practice</h5>
-                            <p>Learn one profession daily<br>Practice family vocabulary<br>Use articles always</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Placeholder for A2.1 & beyond -->
-        <div class="level-content" data-level="a2-1">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level A2.1 - Coming Soon</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p>A2.1 content will include:</p>
-                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
-                        <li>Extended vocabulary for shopping, travel, and hobbies</li>
-                        <li>Past tense introduction (Präteritum)</li>
-                        <li>Comparative and superlative adjectives</li>
-                        <li>More complex sentence structures</li>
-                        <li>And much more...</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="level-content" data-level="a2-2">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level A2.2 - Coming Soon</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p>Detailed A2.2 content coming soon...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="level-content" data-level="b1-1">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level B1.1 - Coming Soon</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p>Detailed B1.1 content coming soon...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="level-content" data-level="b1-2">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level B1.2 - Coming Soon</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p>Detailed B1.2 content coming soon...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="level-content" data-level="b2-1">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level B2.1 - Coming Soon</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p>Detailed B2.1 content coming soon...</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="level-content" data-level="b2-2">
-            <div class="section">
-                <div class="section-header">
-                    <h3>📚 Level B2.2 - Coming Soon</h3>
-                    <span class="section-toggle">▼</span>
-                </div>
-                <div class="section-content">
-                    <p>Detailed B2.2 content coming soon...</p>
-                </div>
-            </div>
-        </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 German Learning Hub. Designed for students.</p>
+        </footer>
     </div>
 
-    <footer>
-        <div class="watermark">🎓 German Learning Hub - Created by aksell</div>
-        <p>Your premium German learning platform | A1.1 → B2.2</p>
-        <div class="footer-icons">
-            <a href="https://www.instagram.com/a._.xell_/" target="_blank" rel="noopener noreferrer" class="footer-icon" title="Follow on Instagram">📸</a>
-            <a href="https://github.com/ALaksell" target="_blank" rel="noopener noreferrer" class="footer-icon" title="Visit GitHub">💻</a>
-        </div>
-    </footer>
+    <!-- Custom JS -->
     <script src="German-Arabic-English Dictionary.js"></script>
 </body>
 </html>
