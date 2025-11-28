@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0f1115">
+    <meta name="color-scheme" content="dark">
+
     <title>German-Arabic-English Dictionary | A1-B2 Master Course</title>
-    <meta name="description" content="Comprehensive German-Arabic-English Dictionary and Learning Hub A1-B2">
-    
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
+    <meta name="description"
+        content="Comprehensive German-Arabic-English Dictionary and Learning Hub. Master German vocabulary from A1 to B2 with pronunciation, examples, and quizzes.">
+    <meta name="keywords" content="German, Arabic, English, Dictionary, A1, A2, B1, B2, CEFR, Learn German">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="German-Arabic-English Dictionary">
+    <meta property="og:description" content="Master German vocabulary from A1 to B2">
+    <meta property="og:type" content="website">
+
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
-    <!-- 3D Background Canvas -->
-    <canvas id="scene"></canvas>
-    
-    <!-- Overlay Gradient -->   
-    <div class="overlay"></div>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- 3D Particle Background Canvas -->
+    <canvas id="scene" aria-hidden="true"></canvas>
+
+    <!-- Overlay Gradient -->
+    <div class="overlay" aria-hidden="true"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen" aria-live="polite">
+        <div class="loading-spinner"></div>
+        <p>Loading Dictionary...</p>
+    </div>
 
     <div class="app-container">
         <!-- Header & Branding -->
@@ -34,661 +60,212 @@
                     <span class="tagline">Master German A1-B2</span>
                 </div>
             </div>
-            
-            <div class="creator-links">
-                <span class="watermark">Created by <strong>aksell</strong></span>
-                <a href="https://github.com/ALaksell" target="_blank" aria-label="GitHub" class="social-btn github">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.instagram.com/a._.xell_/" target="_blank" aria-label="Instagram" class="social-btn instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
+
+            <!-- Word of the Day Widget -->
+            <div id="wotd-container" class="wotd-container" aria-label="Word of the Day"></div>
+
+            <div class="header-actions">
+                <button id="particle-toggle" class="icon-btn" aria-label="Toggle particle effects" aria-pressed="false"
+                    title="Toggle Effects">
+                    <i class="fas fa-sparkles"></i>
+                </button>
+
+                <div class="creator-links">
+                    <span class="watermark">Created by <strong>aksell</strong></span>
+                    <a href="https://github.com/ALaksell" target="_blank" rel="noopener noreferrer"
+                        aria-label="GitHub Profile" class="social-btn">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.instagram.com/a._.xell_/" target="_blank" rel="noopener noreferrer"
+                        aria-label="Instagram Profile" class="social-btn">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
             </div>
         </header>
 
-        <!-- Added main page navigation tabs -->
-        <nav class="main-nav">
-            <button class="main-nav-btn active" data-page="dictionary-page">
-                <i class="fas fa-book"></i>
+        <!-- Main Navigation Tabs -->
+        <nav class="main-nav" role="tablist" aria-label="Main navigation">
+            <button class="main-nav-btn active" data-page="dictionary" role="tab" aria-selected="true"
+                aria-controls="dictionary-page">
+                <i class="fas fa-book" aria-hidden="true"></i>
                 <span>Dictionary</span>
             </button>
-            <button class="main-nav-btn" data-page="levels-page">
-                <i class="fas fa-graduation-cap"></i>
+            <button class="main-nav-btn" data-page="levels" role="tab" aria-selected="false"
+                aria-controls="levels-page">
+                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                 <span>German Levels (A1-B2)</span>
             </button>
         </nav>
 
-        <!-- ==================== DICTIONARY PAGE ==================== -->
-        <div id="dictionary-page" class="page-content active">
-            <!-- Level Navigation -->
-            <nav class="level-nav">
-                <button class="level-btn active" data-level="A1">
-                    <span class="lvl-code">A1</span>
-                    <span class="lvl-name">Beginner</span>
-                    <div class="glow"></div>
-                </button>
-                <button class="level-btn" data-level="A2">
-                    <span class="lvl-code">A2</span>
-                    <span class="lvl-name">Elementary</span>
-                    <div class="glow"></div>
-                </button>
-                <button class="level-btn" data-level="B1">
-                    <span class="lvl-code">B1</span>
-                    <span class="lvl-name">Intermediate</span>
-                    <div class="glow"></div>
-                </button>
-                <button class="level-btn" data-level="B2">
-                    <span class="lvl-code">B2</span>
-                    <span class="lvl-name">Upper Int.</span>
-                    <div class="glow"></div>
-                </button>
-            </nav>
+        <!-- Main Layout Container -->
+        <div class="main-layout">
 
-            <!-- Main Content Area -->
-            <main id="main-content" class="glass-panel">
-                
-                <!-- Level Header Info -->
-                <div class="level-info">
-                    <h2 id="current-level-title">Level A1: The Foundation</h2>
-                    <p id="current-level-desc">Essential vocabulary for everyday survival, greetings, and basic needs.</p>
-                </div>
+            <!-- Collapsible Sidebar -->
+            <aside id="categories-sidebar" class="sidebar glass-panel" role="navigation" aria-label="Categories">
+                <!-- Sidebar content rendered by JS -->
+            </aside>
 
-                <!-- Search Box -->
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="dict-search" placeholder="Search dictionary (German, English, or Arabic)...">
-                </div>
+            <!-- Dictionary Page -->
+            <main id="dictionary-page" class="page-content active" role="tabpanel" aria-labelledby="dictionary-tab">
 
-                <!-- View Toggle (Dictionary vs Exercises) -->
-                <div class="view-toggle">
-                    <button class="toggle-btn active" data-view="dictionary">
-                        <i class="fas fa-book"></i> Dictionary
-                    </button>
-                    <button class="toggle-btn" data-view="exercises">
-                        <i class="fas fa-pen-to-square"></i> Quick Exercises
-                    </button>
-                </div>
+                <!-- Level Navigation Tabs -->
+                <nav id="level-tabs" class="level-nav" role="tablist" aria-label="Language levels">
+                    <!-- Level tabs rendered by JS -->
+                </nav>
 
-                <!-- Dictionary View -->
-                <div id="dictionary-view" class="content-view active">
-                    <div class="table-wrapper">
-                        <table class="dict-table">
-                            <thead>
-                                <tr>
-                                    <th class="col-de">German <i class="fas fa-volume-high tiny-icon"></i></th>
-                                    <th class="col-pron-en">Pronunciation (EN)</th>
-                                    <th class="col-pron-ar" dir="rtl">النطق (عربي)</th>
-                                    <th class="col-en">English</th>
-                                    <th class="col-ar" dir="rtl">العربية</th>
-                                    <th class="col-ex">Example / Beispiel</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dictionary-body">
-                                <!-- Content injected via JS -->
-                            </tbody>
-                        </table>
+                <!-- Sticky Search Header -->
+                <div class="search-header glass-panel">
+                    <!-- Level Info -->
+                    <div id="level-info" class="level-info">
+                        <h2>Level A1: Absolute Beginner</h2>
+                        <p>Essential vocabulary for daily life, greetings, family, numbers, and basic needs.</p>
+                    </div>
+
+                    <!-- Search Controls -->
+                    <div class="search-controls">
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                            <input type="search" id="dict-search" class="search-input"
+                                placeholder="Search (German, English, or Arabic)..." aria-label="Search dictionary"
+                                autocomplete="off" spellcheck="false">
+                            <div id="search-suggestions" class="search-suggestions" role="listbox"
+                                aria-label="Search suggestions"></div>
+                        </div>
+
+                        <!-- Scope Toggle -->
+                        <div class="scope-toggle">
+                            <label for="scope-toggle" class="sr-only">Search scope</label>
+                            <select id="scope-toggle" class="scope-select">
+                                <option value="all">All Words</option>
+                                <option value="level">Current Level</option>
+                                <option value="category">Current Category</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- View Toggle -->
+                    <div class="view-controls">
+                        <div class="view-toggle" role="group" aria-label="View options">
+                            <button class="view-toggle-btn active" data-view="card" aria-pressed="true">
+                                <i class="fas fa-grip" aria-hidden="true"></i>
+                                <span>Cards</span>
+                            </button>
+                            <button class="view-toggle-btn" data-view="table" aria-pressed="false">
+                                <i class="fas fa-table" aria-hidden="true"></i>
+                                <span>Table</span>
+                            </button>
+                            <button class="view-toggle-btn" data-view="flashcard" aria-pressed="false">
+                                <i class="fas fa-clone" aria-hidden="true"></i>
+                                <span>Flashcards</span>
+                            </button>
+                        </div>
+
+                        <!-- Extra Actions -->
+                        <div class="extra-actions">
+                            <button id="quiz-btn" class="action-btn-header" aria-label="Start quiz" title="Quick Quiz">
+                                <i class="fas fa-question-circle" aria-hidden="true"></i>
+                            </button>
+                            <button id="favorites-btn" class="action-btn-header" aria-label="Show favorites"
+                                title="Favorites (F)">
+                                <i class="fas fa-heart" aria-hidden="true"></i>
+                            </button>
+                            <button id="random-btn" class="action-btn-header" aria-label="Random word"
+                                title="Random Word (R)">
+                                <i class="fas fa-shuffle" aria-hidden="true"></i>
+                            </button>
+                            <button id="export-btn" class="action-btn-header" aria-label="Export favorites"
+                                title="Export">
+                                <i class="fas fa-download" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Exercises View -->
-                <div id="exercises-view" class="content-view">
-                    <div class="exercises-container" id="exercises-container">
-                        <!-- Exercises injected via JS -->
-                    </div>
-                </div>
+                <!-- Results Container -->
+                <section id="results-container" class="results-container glass-panel" aria-live="polite"
+                    aria-label="Dictionary results">
+                    <!-- Results rendered by JS -->
+                </section>
 
             </main>
+
+            <!-- German Levels Page -->
+            <div id="levels-page" class="page-content" role="tabpanel" aria-labelledby="levels-tab">
+                <!-- Levels content rendered by JS -->
+            </div>
+
         </div>
 
-        <!-- ==================== GERMAN LEVELS PAGE ==================== -->
-        <!-- Added entirely new German Levels page with collapsible sections -->
-        <div id="levels-page" class="page-content">
-            <main class="glass-panel levels-panel">
-                <div class="levels-header">
-                    <h2><i class="fas fa-layer-group"></i> German Language Levels</h2>
-                    <p>Comprehensive overview of Grammar, Vocabulary, and Skills for each CEFR level</p>
-                </div>
-
-                <div class="levels-container">
-                    
-                    <!-- A1 Level Card -->
-                    <div class="level-card" data-level-card="A1">
-                        <button class="level-card-header" aria-expanded="false">
-                            <div class="level-card-title">
-                                <span class="level-badge a1">A1</span>
-                                <div>
-                                    <h3>Beginner</h3>
-                                    <p>Anfänger - المبتدئ</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down level-card-icon"></i>
-                        </button>
-                        <div class="level-card-content">
-                            
-                            <!-- Grammar Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-spell-check"></i>
-                                    <h4>Grammatik (Grammar) - القواعد</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="grammar-list">
-                                        <li>
-                                            <strong>Verb conjugation in Präsens (Present tense)</strong>
-                                            <p>تصريف الأفعال في زمن المضارع</p>
-                                            <div class="example-box">
-                                                <code>ich gehe, du gehst, er/sie/es geht, wir gehen, ihr geht, sie gehen</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Personal pronouns (Personalpronomen)</strong>
-                                            <p>الضمائر الشخصية</p>
-                                            <div class="example-box">
-                                                <code>ich (أنا), du (أنت), er (هو), sie (هي), es (هو/هي للمحايد), wir (نحن), ihr (أنتم), sie (هم), Sie (حضرتك)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Definite articles (der, die, das)</strong>
-                                            <p>أدوات التعريف</p>
-                                            <div class="example-box">
-                                                <code>der Mann (الرجل - مذكر), die Frau (المرأة - مؤنث), das Kind (الطفل - محايد)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Simple nominal and verbal sentences</strong>
-                                            <p>الجمل الاسمية والفعلية البسيطة</p>
-                                            <div class="example-box">
-                                                <code>Das ist ein Buch. (هذا كتاب) | Ich lese ein Buch. (أنا أقرأ كتاباً)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Question words (Fragewörter)</strong>
-                                            <p>أدوات الاستفهام</p>
-                                            <div class="example-box">
-                                                <code>wo (أين), wer (من), was (ماذا), wann (متى), wie (كيف), warum (لماذا), welche (أي)</code>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Vocabulary Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-language"></i>
-                                    <h4>Wortschatz (Vocabulary) - المفردات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <div class="vocab-grid">
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-hand-wave"></i> Introductions - التعارف</h5>
-                                            <p>Hallo, Guten Tag, Wie heißt du?, Ich heiße..., Freut mich</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-users"></i> Family - العائلة</h5>
-                                            <p>Vater, Mutter, Bruder, Schwester, Sohn, Tochter, Großvater, Großmutter</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-hashtag"></i> Numbers - الأرقام</h5>
-                                            <p>eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn... bis hundert</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-briefcase"></i> Professions - المهن</h5>
-                                            <p>Arzt, Lehrer, Ingenieur, Student, Kellner, Polizist, Fahrer</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-palette"></i> Colors - الألوان</h5>
-                                            <p>rot, blau, grün, gelb, schwarz, weiß, orange, rosa, grau, braun</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-utensils"></i> Food - الطعام</h5>
-                                            <p>Brot, Käse, Fleisch, Fisch, Reis, Suppe, Salat, Obst, Gemüse</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-shirt"></i> Clothes - الملابس</h5>
-                                            <p>Hemd, Hose, Kleid, Jacke, Schuhe, Socken, Mantel, Mütze</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-clock"></i> Time & Days - الوقت والأيام</h5>
-                                            <p>Montag-Sonntag, Januar-Dezember, heute, morgen, gestern, Uhr</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-map-marker-alt"></i> Basic Places - الأماكن الأساسية</h5>
-                                            <p>Haus, Schule, Supermarkt, Bahnhof, Krankenhaus, Restaurant, Park</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Skills Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-star"></i>
-                                    <h4>Fertigkeiten (Skills) - المهارات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="skills-list">
-                                        <li><i class="fas fa-check-circle"></i> Introducing yourself and others - تقديم نفسك والآخرين</li>
-                                        <li><i class="fas fa-check-circle"></i> Simple descriptions of objects and people - وصف بسيط للأشياء والأشخاص</li>
-                                        <li><i class="fas fa-check-circle"></i> Forming very short, clear sentences - تكوين جمل قصيرة جداً وواضحة</li>
-                                        <li><i class="fas fa-check-circle"></i> Understanding very simple conversations - فهم المحادثات البسيطة جداً</li>
-                                        <li><i class="fas fa-check-circle"></i> Asking and answering basic questions - طرح الأسئلة الأساسية والإجابة عليها</li>
-                                        <li><i class="fas fa-check-circle"></i> Filling out simple forms - ملء الاستمارات البسيطة</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- A2 Level Card -->
-                    <div class="level-card" data-level-card="A2">
-                        <button class="level-card-header" aria-expanded="false">
-                            <div class="level-card-title">
-                                <span class="level-badge a2">A2</span>
-                                <div>
-                                    <h3>Elementary</h3>
-                                    <p>Grundlegende Kenntnisse - المستوى الأساسي</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down level-card-icon"></i>
-                        </button>
-                        <div class="level-card-content">
-                            
-                            <!-- Grammar Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-spell-check"></i>
-                                    <h4>Grammatik (Grammar) - القواعد</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="grammar-list">
-                                        <li>
-                                            <strong>Perfekt (Present Perfect)</strong>
-                                            <p>زمن الماضي التام</p>
-                                            <div class="example-box">
-                                                <code>Ich habe gegessen. (أنا أكلت) | Ich bin gegangen. (أنا ذهبت)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Adjectives and their usage</strong>
-                                            <p>الصفات واستخدامها</p>
-                                            <div class="example-box">
-                                                <code>der große Mann, eine kleine Frau, ein schönes Haus</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Possessive pronouns (Possessivpronomen)</strong>
-                                            <p>ضمائر الملكية</p>
-                                            <div class="example-box">
-                                                <code>mein (ملكي), dein (ملكك), sein (ملكه), ihr (ملكها), unser (ملكنا), euer (ملككم), ihr (ملكهم)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Sentences with "weil" and "dass"</strong>
-                                            <p>الجمل مع "لأن" و "أن"</p>
-                                            <div class="example-box">
-                                                <code>Ich bleibe zu Hause, weil ich krank bin. | Ich weiß, dass du kommst.</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Comparatives (Komparativ/Superlativ)</strong>
-                                            <p>صيغ المقارنة والتفضيل</p>
-                                            <div class="example-box">
-                                                <code>groß → größer → am größten | gut → besser → am besten</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Prepositions with Dativ</strong>
-                                            <p>حروف الجر مع حالة الجر</p>
-                                            <div class="example-box">
-                                                <code>mit, nach, bei, von, zu, aus, seit, gegenüber</code>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Vocabulary Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-language"></i>
-                                    <h4>Wortschatz (Vocabulary) - المفردات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <div class="vocab-grid">
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-heart-pulse"></i> Health - الصحة</h5>
-                                            <p>Kopfschmerzen, Fieber, Erkältung, Arzt, Apotheke, Medikament, krank, gesund</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-cloud-sun"></i> Weather - الطقس</h5>
-                                            <p>sonnig, bewölkt, regnerisch, windig, kalt, warm, Schnee, Gewitter</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-graduation-cap"></i> Education - التعليم</h5>
-                                            <p>Universität, Kurs, Prüfung, Hausaufgabe, Zeugnis, lernen, studieren</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-building"></i> Work - العمل</h5>
-                                            <p>Büro, Chef, Kollege, Gehalt, Urlaub, Termin, Besprechung, arbeiten</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-plane"></i> Travel - السفر</h5>
-                                            <p>Flugzeug, Zug, Hotel, Koffer, Reisepass, buchen, Flughafen, ankommen</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-calendar-day"></i> Daily Routines - الروتين اليومي</h5>
-                                            <p>aufstehen, duschen, frühstücken, zur Arbeit gehen, zu Abend essen, schlafen gehen</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-map"></i> Describing Places - وصف الأماكن</h5>
-                                            <p>links, rechts, geradeaus, Ecke, Kreuzung, gegenüber, neben, zwischen</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Skills Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-star"></i>
-                                    <h4>Fertigkeiten (Skills) - المهارات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="skills-list">
-                                        <li><i class="fas fa-check-circle"></i> Writing short messages (complaint, letter to a friend) - كتابة رسائل قصيرة (شكوى، رسالة لصديق)</li>
-                                        <li><i class="fas fa-check-circle"></i> Making simple phone calls - إجراء مكالمات هاتفية بسيطة</li>
-                                        <li><i class="fas fa-check-circle"></i> Understanding short texts - فهم النصوص القصيرة</li>
-                                        <li><i class="fas fa-check-circle"></i> Talking about the past with some detail - التحدث عن الماضي ببعض التفصيل</li>
-                                        <li><i class="fas fa-check-circle"></i> Describing your daily routine - وصف روتينك اليومي</li>
-                                        <li><i class="fas fa-check-circle"></i> Giving and understanding directions - إعطاء وفهم الاتجاهات</li>
-                                        <li><i class="fas fa-check-circle"></i> Shopping and ordering in restaurants - التسوق والطلب في المطاعم</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- B1 Level Card -->
-                    <div class="level-card" data-level-card="B1">
-                        <button class="level-card-header" aria-expanded="false">
-                            <div class="level-card-title">
-                                <span class="level-badge b1">B1</span>
-                                <div>
-                                    <h3>Intermediate</h3>
-                                    <p>Mittelstufe - المستوى المتوسط</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down level-card-icon"></i>
-                        </button>
-                        <div class="level-card-content">
-                            
-                            <!-- Grammar Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-spell-check"></i>
-                                    <h4>Grammatik (Grammar) - القواعد</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="grammar-list">
-                                        <li>
-                                            <strong>Präteritum (Simple Past)</strong>
-                                            <p>زمن الماضي البسيط</p>
-                                            <div class="example-box">
-                                                <code>ich war (كنت), ich hatte (كان لدي), ich ging (ذهبت), ich sah (رأيت)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Futur I (Future Tense)</strong>
-                                            <p>زمن المستقبل</p>
-                                            <div class="example-box">
-                                                <code>Ich werde morgen kommen. (سأأتي غداً) | werden + Infinitiv</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Basic conditional sentences</strong>
-                                            <p>الجمل الشرطية الأساسية</p>
-                                            <div class="example-box">
-                                                <code>Wenn es regnet, bleibe ich zu Hause. (إذا أمطرت، سأبقى في البيت)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Passiv (Passive Voice)</strong>
-                                            <p>المبني للمجهول</p>
-                                            <div class="example-box">
-                                                <code>Das Buch wird gelesen. (الكتاب يُقرأ) | werden + Partizip II</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Advanced connectors</strong>
-                                            <p>أدوات الربط المتقدمة</p>
-                                            <div class="example-box">
-                                                <code>obwohl (بالرغم من), trotzdem (مع ذلك), deshalb (لذلك), außerdem (بالإضافة), jedoch (ولكن)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Relative clauses</strong>
-                                            <p>الجمل الموصولة</p>
-                                            <div class="example-box">
-                                                <code>Der Mann, der dort steht, ist mein Lehrer. (الرجل الذي يقف هناك هو معلمي)</code>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Vocabulary Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-language"></i>
-                                    <h4>Wortschatz (Vocabulary) - المفردات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <div class="vocab-grid">
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-comment-dots"></i> Opinions - الآراء</h5>
-                                            <p>Ich denke, Meiner Meinung nach, Ich glaube, Es scheint mir, Ich bin überzeugt</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-book-open"></i> Education & Studies - التعليم والدراسة</h5>
-                                            <p>Studiengang, Abschluss, Stipendium, Forschung, Vorlesung, Seminar, Praktikum</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-leaf"></i> Environment - البيئة</h5>
-                                            <p>Klimawandel, Umweltschutz, erneuerbare Energie, Recycling, Verschmutzung</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-stethoscope"></i> Health (Advanced) - الصحة المتقدمة</h5>
-                                            <p>Diagnose, Behandlung, Operation, Versicherung, Symptom, chronisch, akut</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-newspaper"></i> Media - الإعلام</h5>
-                                            <p>Nachrichten, Bericht, Interview, Sendung, Werbung, soziale Medien</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-laptop"></i> Technology - التكنولوجيا</h5>
-                                            <p>Software, herunterladen, hochladen, Passwort, Datenschutz, App, aktualisieren</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-masks-theater"></i> Culture - الثقافة</h5>
-                                            <p>Tradition, Brauch, Feiertag, Museum, Ausstellung, Konzert, Theater</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-people-group"></i> Society - المجتمع</h5>
-                                            <p>Gesellschaft, Bürger, Integration, Gleichberechtigung, Diskriminierung</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Skills Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-star"></i>
-                                    <h4>Fertigkeiten (Skills) - المهارات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="skills-list">
-                                        <li><i class="fas fa-check-circle"></i> Writing medium texts (150-200 words) - كتابة نصوص متوسطة (150-200 كلمة)</li>
-                                        <li><i class="fas fa-check-circle"></i> Summarizing a text or story - تلخيص نص أو قصة</li>
-                                        <li><i class="fas fa-check-circle"></i> Holding a 10-minute conversation - إجراء محادثة لمدة 10 دقائق</li>
-                                        <li><i class="fas fa-check-circle"></i> Understanding light TV programs - فهم البرامج التلفزيونية الخفيفة</li>
-                                        <li><i class="fas fa-check-circle"></i> Giving justified opinions - إبداء آراء مبررة</li>
-                                        <li><i class="fas fa-check-circle"></i> Describing experiences and events - وصف التجارب والأحداث</li>
-                                        <li><i class="fas fa-check-circle"></i> Explaining plans and ambitions - شرح الخطط والطموحات</li>
-                                        <li><i class="fas fa-check-circle"></i> Dealing with most travel situations - التعامل مع معظم مواقف السفر</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- B2 Level Card -->
-                    <div class="level-card" data-level-card="B2">
-                        <button class="level-card-header" aria-expanded="false">
-                            <div class="level-card-title">
-                                <span class="level-badge b2">B2</span>
-                                <div>
-                                    <h3>Upper Intermediate</h3>
-                                    <p>Obere Mittelstufe - المستوى فوق المتوسط</p>
-                                </div>
-                            </div>
-                            <i class="fas fa-chevron-down level-card-icon"></i>
-                        </button>
-                        <div class="level-card-content">
-                            
-                            <!-- Grammar Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-spell-check"></i>
-                                    <h4>Grammatik (Grammar) - القواعد</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="grammar-list">
-                                        <li>
-                                            <strong>Very complex sentences</strong>
-                                            <p>الجمل المعقدة جداً</p>
-                                            <div class="example-box">
-                                                <code>Obwohl er müde war, ging er zur Arbeit, weil er eine wichtige Besprechung hatte.</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Advanced negation</strong>
-                                            <p>النفي المتقدم</p>
-                                            <div class="example-box">
-                                                <code>kaum (بالكاد), weder...noch (لا...ولا), keineswegs (بأي حال من الأحوال)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Plusquamperfekt (Past Perfect)</strong>
-                                            <p>زمن الماضي الأبعد</p>
-                                            <div class="example-box">
-                                                <code>Nachdem ich gegessen hatte, ging ich spazieren. (بعد أن أكلت، ذهبت للتنزه)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Advanced Passiv</strong>
-                                            <p>المبني للمجهول المتقدم</p>
-                                            <div class="example-box">
-                                                <code>Das Haus wurde gebaut. (Past) | Das Haus war gebaut worden. (Past Perfect Passive)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Konjunktiv II (Subjunctive II)</strong>
-                                            <p>صيغة الشرطية (الأمنيات والاحتمالات)</p>
-                                            <div class="example-box">
-                                                <code>Wenn ich reich wäre, würde ich reisen. (لو كنت غنياً، لسافرت)</code>
-                                                <code>Ich hätte gern... (أود أن يكون لدي...) | Könnten Sie mir helfen? (هل يمكنك مساعدتي؟)</code>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <strong>Nominalization</strong>
-                                            <p>تحويل الأفعال إلى أسماء</p>
-                                            <div class="example-box">
-                                                <code>lesen → das Lesen | lernen → das Lernen | reisen → das Reisen</code>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Vocabulary Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-language"></i>
-                                    <h4>Wortschatz (Vocabulary) - المفردات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <div class="vocab-grid">
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-brain"></i> Abstract Concepts - المفاهيم المجردة</h5>
-                                            <p>Gerechtigkeit, Freiheit, Verantwortung, Identität, Moral, Würde, Bewusstsein</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-landmark"></i> Politics - السياسة</h5>
-                                            <p>Regierung, Demokratie, Wahl, Partei, Gesetz, Reform, Opposition, Parlament</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-chart-line"></i> Business - الأعمال</h5>
-                                            <p>Unternehmen, Investition, Aktie, Bilanz, Gewinn, Verlust, Vertrag, Verhandlung</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-user-tie"></i> Job Interviews - مقابلات العمل</h5>
-                                            <p>Bewerbung, Lebenslauf, Qualifikation, Stärken, Schwächen, Erfahrung, Motivation</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-book"></i> Academic - أكاديمي</h5>
-                                            <p>Hypothese, Analyse, Methodik, Ergebnis, Schlussfolgerung, Quelle, Zitat</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-heart"></i> Complex Emotions - المشاعر المعقدة</h5>
-                                            <p>Sehnsucht, Verzweiflung, Begeisterung, Enttäuschung, Zuneigung, Reue</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-scale-balanced"></i> Law & Rights - القانون والحقوق</h5>
-                                            <p>Recht, Pflicht, Anwalt, Gericht, Urteil, Klage, Strafe, Gerechtigkeit</p>
-                                        </div>
-                                        <div class="vocab-category">
-                                            <h5><i class="fas fa-globe"></i> Global Issues - القضايا العالمية</h5>
-                                            <p>Globalisierung, Migration, Armut, Ungleichheit, Nachhaltigkeit, Konflikt</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Skills Section -->
-                            <div class="section-block">
-                                <div class="section-header">
-                                    <i class="fas fa-star"></i>
-                                    <h4>Fertigkeiten (Skills) - المهارات</h4>
-                                </div>
-                                <div class="section-content">
-                                    <ul class="skills-list">
-                                        <li><i class="fas fa-check-circle"></i> Writing 250-word essays - كتابة مقالات من 250 كلمة</li>
-                                        <li><i class="fas fa-check-circle"></i> Long debates with strong arguments - مناظرات طويلة بحجج قوية</li>
-                                        <li><i class="fas fa-check-circle"></i> Watching videos without subtitles - مشاهدة الفيديوهات بدون ترجمة</li>
-                                        <li><i class="fas fa-check-circle"></i> Reading long texts and understanding deep ideas - قراءة نصوص طويلة وفهم الأفكار العميقة</li>
-                                        <li><i class="fas fa-check-circle"></i> Summarizing and explaining complex concepts - تلخيص وشرح المفاهيم المعقدة</li>
-                                        <li><i class="fas fa-check-circle"></i> Giving detailed presentations - تقديم عروض تقديمية مفصلة</li>
-                                        <li><i class="fas fa-check-circle"></i> Understanding native speakers at normal speed - فهم المتحدثين الأصليين بسرعة طبيعية</li>
-                                        <li><i class="fas fa-check-circle"></i> Expressing nuanced opinions - التعبير عن آراء دقيقة</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </main>
-        </div>
-        
-        <footer>
-            <p>&copy; 2025 German Learning Hub. Designed for students.</p>
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>German-Arabic-English Dictionary &copy; 2025 | Created for educational purposes</p>
+            <div class="footer-shortcuts">
+                <kbd>/</kbd> Search &nbsp;
+                <kbd>F</kbd> Favorites &nbsp;
+                <kbd>R</kbd> Random Word
+            </div>
         </footer>
     </div>
 
-    <!-- Custom JS -->
-    <script src="script.js"></script>
-</body>
-</html> 
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="scroll-top-btn" aria-label="Scroll to top" title="Back to top">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
 
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="quiz-title" hidden>
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="quiz-title"><i class="fas fa-question-circle"></i> Quick Quiz</h2>
+                <button class="modal-close" aria-label="Close quiz">&times;</button>
+            </div>
+            <div id="quiz-content" class="modal-body">
+                <!-- Quiz content rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Import/Export Modal -->
+    <div id="export-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="export-title" hidden>
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="export-title"><i class="fas fa-file-export"></i> Export/Import Favorites</h2>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="export-actions">
+                    <button id="export-json-btn" class="btn-primary">
+                        <i class="fas fa-download"></i> Export as JSON
+                    </button>
+                    <div class="import-section">
+                        <label for="import-file" class="btn-secondary">
+                            <i class="fas fa-upload"></i> Import JSON
+                        </label>
+                        <input type="file" id="import-file" accept=".json" hidden>
+                    </div>
+                </div>
+                <div id="export-result" class="export-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- JavaScript Modules -->
+    <script src="words-data.js"></script>
+    <script src="data.js"></script>
+    <script src="search.js"></script>
+    <script src="tts.js"></script>
+    <script src="favorites.js"></script>
+    <script src="quiz.js"></script>
+    <script src="wotd.js"></script>
+    <script src="ui.js"></script>
+    <script src="categories.js"></script>
+    <script src="levels.js"></script>
+    <script src="particles.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

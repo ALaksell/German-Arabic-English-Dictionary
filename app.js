@@ -15,22 +15,39 @@ const App = (() => {
   // DOM Elements
   let _elements = {}
 
-  // External Modules
-  const DataLoader = window.DataLoader
-  const TTSEngine = window.TTSEngine
-  const ParticleBackground = window.ParticleBackground
-  const UIRenderer = window.UIRenderer
-  const CategoriesManager = window.CategoriesManager
-  const SearchEngine = window.SearchEngine
-  const LevelsPage = window.LevelsPage
-  const FavoritesManager = window.FavoritesManager
-  const WordOfTheDay = window.WordOfTheDay
+  function getDataLoader() {
+    return window.DataLoader
+  }
+  function getTTSEngine() {
+    return window.TTSEngine
+  }
+  function getParticleBackground() {
+    return window.ParticleBackground
+  }
+  function getUIRenderer() {
+    return window.UIRenderer
+  }
+  function getCategoriesManager() {
+    return window.CategoriesManager
+  }
+  function getSearchEngine() {
+    return window.SearchEngine
+  }
+  function getLevelsPage() {
+    return window.LevelsPage
+  }
+  function getFavoritesManager() {
+    return window.FavoritesManager
+  }
+  function getWordOfTheDay() {
+    return window.WordOfTheDay
+  }
 
   /**
    * Initialize the application
    */
   async function init() {
-    console.log("[App] Initializing...")
+    console.log("[v0] App initializing...")
 
     // Cache DOM elements
     cacheElements()
@@ -39,22 +56,48 @@ const App = (() => {
     showLoading(true)
 
     try {
+      const DataLoader = getDataLoader()
+      const TTSEngine = getTTSEngine()
+      const ParticleBackground = getParticleBackground()
+      const UIRenderer = getUIRenderer()
+
+      if (!DataLoader) {
+        throw new Error("DataLoader module not found")
+      }
+
       // Load data
+      console.log("[v0] Loading data...")
       await DataLoader.loadData()
-      console.log("[App] Data loaded, version:", DataLoader.getVersion())
+      console.log("[v0] Data loaded, version:", DataLoader.getVersion())
 
-      // Initialize TTS
-      await TTSEngine.init()
-      console.log("[App] TTS initialized")
+      // Initialize TTS (non-blocking)
+      if (TTSEngine) {
+        TTSEngine.init()
+          .then(() => {
+            console.log("[v0] TTS initialized")
+          })
+          .catch((err) => {
+            console.warn("[v0] TTS init failed:", err)
+          })
+      }
 
-      // Initialize particle background
-      if (ParticleBackground.init("scene")) {
-        ParticleBackground.start()
+      // Initialize particle background (non-blocking)
+      if (ParticleBackground) {
+        try {
+          if (ParticleBackground.init("scene")) {
+            ParticleBackground.start()
+            console.log("[v0] Particles initialized")
+          }
+        } catch (err) {
+          console.warn("[v0] Particles init failed:", err)
+        }
       }
 
       // Set initial view based on device
-      _currentView = UIRenderer.isMobile() ? "card" : "table"
-      UIRenderer.setView(_currentView)
+      if (UIRenderer) {
+        _currentView = UIRenderer.isMobile() ? "card" : "table"
+        UIRenderer.setView(_currentView)
+      }
 
       // Render initial state
       renderApp()
@@ -70,10 +113,11 @@ const App = (() => {
 
       _isInitialized = true
       showLoading(false)
-      console.log("[App] Initialization complete")
+      console.log("[v0] Initialization complete")
     } catch (error) {
-      console.error("[App] Initialization failed:", error)
-      showError("Failed to load dictionary data. Please refresh the page.")
+      console.error("[v0] Initialization failed:", error)
+      showLoading(false)
+      showError("Failed to load dictionary data. Please refresh the page. Error: " + error.message)
     }
   }
 
@@ -96,6 +140,7 @@ const App = (() => {
       scrollTopBtn: document.getElementById("scroll-top"),
       particleToggle: document.getElementById("particle-toggle"),
       wotdContainer: document.getElementById("wotd-container"),
+      loadingScreen: document.getElementById("loading-screen"),
     }
   }
 
@@ -113,7 +158,9 @@ const App = (() => {
    * Render level tabs
    */
   function renderLevelTabs() {
-    if (!_elements.levelTabs) return
+    const CategoriesManager = getCategoriesManager()
+    const DataLoader = getDataLoader()
+    if (!_elements.levelTabs || !CategoriesManager || !DataLoader) return
     const levels = DataLoader.getLevels()
     CategoriesManager.renderLevelTabs(_elements.levelTabs, levels, _currentLevel)
   }
@@ -122,7 +169,9 @@ const App = (() => {
    * Render sidebar
    */
   function renderSidebar() {
-    if (!_elements.sidebar) return
+    const CategoriesManager = getCategoriesManager()
+    const DataLoader = getDataLoader()
+    if (!_elements.sidebar || !CategoriesManager || !DataLoader) return
     const categories = DataLoader.getCategories()
     CategoriesManager.renderSidebar(_elements.sidebar, categories, _currentLevel)
   }
@@ -131,7 +180,8 @@ const App = (() => {
    * Render level info header
    */
   function renderLevelInfo() {
-    if (!_elements.levelInfo) return
+    const DataLoader = getDataLoader()
+    if (!_elements.levelInfo || !DataLoader) return
     const info = DataLoader.getLevelInfo(_currentLevel)
     if (info) {
       _elements.levelInfo.innerHTML = `
@@ -145,7 +195,9 @@ const App = (() => {
    * Render results based on current filters
    */
   function renderResults() {
-    if (!_elements.resultsContainer) return
+    const DataLoader = getDataLoader()
+    const UIRenderer = getUIRenderer()
+    if (!_elements.resultsContainer || !DataLoader || !UIRenderer) return
 
     let words
     if (_currentCategory) {
@@ -162,6 +214,11 @@ const App = (() => {
    * Setup event listeners
    */
   function setupEventListeners() {
+    const SearchEngine = getSearchEngine()
+    const ParticleBackground = getParticleBackground()
+    const LevelsPage = getLevelsPage()
+    const UIRenderer = getUIRenderer()
+
     // Main navigation
     _elements.mainNav.forEach((btn) => {
       btn.addEventListener("click", (e) => {
@@ -180,7 +237,7 @@ const App = (() => {
     }
 
     // Scope toggle
-    if (_elements.scopeToggle) {
+    if (_elements.scopeToggle && SearchEngine) {
       _elements.scopeToggle.addEventListener("change", (e) => {
         _searchScope = e.target.value
         SearchEngine.setScope(_searchScope, _currentCategory, _currentLevel)
@@ -199,7 +256,7 @@ const App = (() => {
     // Custom events
     window.addEventListener("levelChanged", (e) => {
       _currentLevel = e.detail.level
-      SearchEngine.setScope(_searchScope, _currentCategory, _currentLevel)
+      if (SearchEngine) SearchEngine.setScope(_searchScope, _currentCategory, _currentLevel)
       renderLevelInfo()
       renderSidebar()
       renderResults()
@@ -207,7 +264,7 @@ const App = (() => {
 
     window.addEventListener("categoryChanged", (e) => {
       _currentCategory = e.detail.category
-      SearchEngine.setScope(_searchScope, _currentCategory, _currentLevel)
+      if (SearchEngine) SearchEngine.setScope(_searchScope, _currentCategory, _currentLevel)
       renderResults()
     })
 
@@ -247,7 +304,7 @@ const App = (() => {
     }
 
     // Particle toggle
-    if (_elements.particleToggle) {
+    if (_elements.particleToggle && ParticleBackground) {
       _elements.particleToggle.addEventListener("click", () => {
         const isReduced = ParticleBackground.isReduced()
         ParticleBackground.setReduced(!isReduced)
@@ -257,14 +314,16 @@ const App = (() => {
     }
 
     // Resize handler
-    window.addEventListener(
-      "resize",
-      debounce(() => {
-        if (UIRenderer.isMobile() && _currentView === "table") {
-          switchView("card")
-        }
-      }, 250),
-    )
+    if (UIRenderer) {
+      window.addEventListener(
+        "resize",
+        debounce(() => {
+          if (UIRenderer.isMobile() && _currentView === "table") {
+            switchView("card")
+          }
+        }, 250),
+      )
+    }
   }
 
   /**
@@ -308,6 +367,7 @@ const App = (() => {
    * Switch page
    */
   function switchPage(page) {
+    const LevelsPage = getLevelsPage()
     _currentPage = page
 
     // Update nav
@@ -321,7 +381,7 @@ const App = (() => {
     }
     if (_elements.levelsPage) {
       _elements.levelsPage.classList.toggle("active", page === "levels")
-      if (page === "levels") {
+      if (page === "levels" && LevelsPage) {
         LevelsPage.render(_elements.levelsPage)
       }
     }
@@ -331,8 +391,9 @@ const App = (() => {
    * Switch view
    */
   function switchView(view) {
+    const UIRenderer = getUIRenderer()
     _currentView = view
-    UIRenderer.setView(view)
+    if (UIRenderer) UIRenderer.setView(view)
 
     _elements.viewToggle.forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.view === view)
@@ -345,6 +406,12 @@ const App = (() => {
    * Handle search
    */
   function handleSearch() {
+    const SearchEngine = getSearchEngine()
+    const DataLoader = getDataLoader()
+    const UIRenderer = getUIRenderer()
+
+    if (!SearchEngine || !DataLoader || !UIRenderer) return
+
     const query = _elements.searchInput?.value || ""
 
     if (query.length === 0) {
@@ -381,7 +448,10 @@ const App = (() => {
    * Show search suggestions
    */
   function showSearchSuggestions() {
-    if (!_elements.searchSuggestions || !_elements.searchInput) return
+    const SearchEngine = getSearchEngine()
+    const DataLoader = getDataLoader()
+
+    if (!_elements.searchSuggestions || !_elements.searchInput || !SearchEngine || !DataLoader) return
 
     const query = _elements.searchInput.value
     const words = DataLoader.getAllWords()
@@ -429,6 +499,12 @@ const App = (() => {
    * Show favorites only
    */
   function showFavoritesOnly() {
+    const FavoritesManager = getFavoritesManager()
+    const DataLoader = getDataLoader()
+    const UIRenderer = getUIRenderer()
+
+    if (!FavoritesManager || !DataLoader || !UIRenderer) return
+
     const allWords = DataLoader.getAllWords()
     const favorites = FavoritesManager.getAllWithData(allWords)
 
@@ -446,11 +522,16 @@ const App = (() => {
    * Show random word
    */
   function showRandomWord() {
+    const DataLoader = getDataLoader()
+    const TTSEngine = getTTSEngine()
+
+    if (!DataLoader) return
+
     const word = DataLoader.getRandomWord(_currentLevel)
     if (word) {
       _elements.searchInput.value = word.de
       handleSearch()
-      TTSEngine.speak(word.de)
+      if (TTSEngine) TTSEngine.speak(word.de)
     }
   }
 
@@ -458,7 +539,11 @@ const App = (() => {
    * Show Word of the Day
    */
   function showWordOfTheDay() {
-    if (!_elements.wotdContainer) return
+    const WordOfTheDay = getWordOfTheDay()
+    const DataLoader = getDataLoader()
+    const TTSEngine = getTTSEngine()
+
+    if (!_elements.wotdContainer || !WordOfTheDay || !DataLoader) return
 
     const words = DataLoader.getAllWords()
     const wotd = WordOfTheDay.getWordOfTheDay(words)
@@ -483,7 +568,7 @@ const App = (() => {
 
       // Attach speaker button
       _elements.wotdContainer.querySelector(".wotd-speak")?.addEventListener("click", () => {
-        TTSEngine.speak(wotd.de)
+        if (TTSEngine) TTSEngine.speak(wotd.de)
       })
     }
   }
@@ -492,6 +577,10 @@ const App = (() => {
    * Show loading state
    */
   function showLoading(show) {
+    const loadingScreen = document.getElementById("loading-screen")
+    if (loadingScreen) {
+      loadingScreen.style.display = show ? "flex" : "none"
+    }
     document.body.classList.toggle("loading", show)
   }
 
@@ -499,6 +588,11 @@ const App = (() => {
    * Show error message
    */
   function showError(message) {
+    const loadingScreen = document.getElementById("loading-screen")
+    if (loadingScreen) {
+      loadingScreen.style.display = "none"
+    }
+
     if (_elements.resultsContainer) {
       _elements.resultsContainer.innerHTML = `
         <div class="error-message">
