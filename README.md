@@ -170,11 +170,6 @@ Set `particlesReduced` to `true` in localStorage, or click the performance toggl
 2. Update word entries in `words.json` with audio path
 3. The TTS button will use the audio file if available, otherwise fall back to Web Speech API
 
-## Credits
-
-- Created by Mohamed Khalid
-- Icons: Font Awesome 6.4
-- Fonts: Inter, Roboto Mono, Cairo (Google Fonts)
 
 ## License
 
