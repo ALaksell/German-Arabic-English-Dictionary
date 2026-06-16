@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc -b && vite build --base=./",
+    "build": "tsc -b && vite build --base=./ --outDir build",
     "preview": "vite preview --host 127.0.0.1",
     "data:prepare": "node scripts/prepare-dictionary-data.mjs",
     "lint": "eslint ."
