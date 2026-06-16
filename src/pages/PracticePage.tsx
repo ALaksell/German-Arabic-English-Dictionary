@@ -88,11 +88,11 @@ export function PracticePage() {
               Train recognition between German, English, and Arabic. Audio was removed to keep the practice clean.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" onClick={() => reset()}>
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            <Button className="w-full sm:w-auto" variant="secondary" onClick={() => reset()}>
               <RotateCcw size={17} /> New set
             </Button>
-            <Button onClick={finishQuiz} disabled={!finished}>
+            <Button className="w-full sm:w-auto" onClick={finishQuiz} disabled={!finished}>
               Save score
             </Button>
           </div>
@@ -103,13 +103,13 @@ export function PracticePage() {
             <button
               key={item.id}
               onClick={() => reset(item.id)}
-              className={`rounded-xl border p-4 text-left transition ${
+              className={`min-w-0 rounded-xl border p-4 text-left transition ${
                 mode === item.id
                   ? "border-cyan-500 bg-cyan-500/12 text-cyan-900 dark:text-cyan-100"
                   : "border-slate-300/70 bg-white/70 text-slate-700 hover:border-cyan-400 dark:border-slate-700 dark:bg-slate-950/35 dark:text-slate-200"
               }`}
             >
-              <div className="flex items-center gap-2 font-black">
+              <div className="flex items-center gap-2 break-words font-black">
                 <Languages size={17} /> {item.label}
               </div>
               <p className="mt-1 text-sm opacity-80">{item.description}</p>
@@ -124,7 +124,7 @@ export function PracticePage() {
         ) : null}
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
+      <section className="grid gap-4 xl:grid-cols-2">
         {questions.map((question, index) => {
           const correctAnswer = getCorrectAnswer(question.word, mode)
           const selected = answers[question.word.id]
@@ -132,9 +132,9 @@ export function PracticePage() {
 
           return (
             <article key={question.word.id} className="glass rounded-xl p-5">
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-bold text-cyan-700 dark:text-cyan-300">Question {index + 1}</p>
-                <h4 className={`mt-2 text-2xl font-black ${mode === "ar-de" ? "rtl" : ""}`}>
+                <h4 className={`mt-2 break-words text-2xl font-black ${mode === "ar-de" ? "rtl" : ""}`}>
                   {getPrompt(question.word, mode)}
                 </h4>
                 <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
@@ -149,15 +149,15 @@ export function PracticePage() {
                     <button
                       key={option}
                       onClick={() => setAnswers((current) => ({ ...current, [question.word.id]: option }))}
-                      className={`flex min-h-12 items-center justify-between rounded-lg border px-4 text-left font-semibold transition ${
+                      className={`flex min-h-12 items-center justify-between gap-3 rounded-lg border px-4 py-2 text-left font-semibold transition ${
                         isAnswered && optionIsCorrect
                           ? "border-emerald-500 bg-emerald-500/12 text-emerald-800 dark:text-emerald-200"
                           : selectedOption
                             ? "border-rose-500 bg-rose-500/12 text-rose-800 dark:text-rose-200"
-                            : "border-slate-300/70 bg-white/75 text-slate-800 hover:border-cyan-500 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100"
+                          : "border-slate-300/70 bg-white/75 text-slate-800 hover:border-cyan-500 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100"
                       }`}
                     >
-                      <span className={mode === "de-ar" ? "rtl" : ""}>{option}</span>
+                      <span className={`min-w-0 break-words ${mode === "de-ar" ? "rtl" : ""}`}>{option}</span>
                       {isAnswered && optionIsCorrect ? <Check size={17} /> : selectedOption ? <X size={17} /> : null}
                     </button>
                   )

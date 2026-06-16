@@ -1,16 +1,15 @@
 import { useMemo } from "react"
 import Fuse from "fuse.js"
 import { words } from "../data/dictionary"
-import type { DictionaryWord, Level } from "../types/dictionary"
+import type { DictionaryWord } from "../types/dictionary"
 
-export function useDictionarySearch(query: string, level: Level | "all", category: string) {
+export function useDictionarySearch(query: string, category: string) {
   const filteredWords = useMemo(() => {
     return words.filter((word) => {
-      const levelMatch = level === "all" || word.level === level
       const categoryMatch = category === "all" || word.category === category
-      return levelMatch && categoryMatch
+      return categoryMatch
     })
-  }, [category, level])
+  }, [category])
 
   const fuse = useMemo(() => {
     return new Fuse(filteredWords, {
@@ -24,7 +23,6 @@ export function useDictionarySearch(query: string, level: Level | "all", categor
         "pronunciation.arabic",
         "category",
         "type",
-        "level",
         "tags",
         "examples.de",
         "examples.en",

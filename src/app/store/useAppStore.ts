@@ -1,6 +1,5 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import type { Level } from "../../features/dictionary/types/dictionary"
 import { getTodayKey } from "../../shared/lib/utils"
 
 type Theme = "dark" | "light"
@@ -13,13 +12,11 @@ interface ProgressState {
 
 interface AppState {
   theme: Theme
-  selectedLevel: Level | "all"
   selectedCategory: string
   favorites: string[]
   reviewDifficulty: Record<string, "again" | "good" | "easy">
   progress: ProgressState
   setTheme: (theme: Theme) => void
-  setSelectedLevel: (level: Level | "all") => void
   setSelectedCategory: (category: string) => void
   toggleFavorite: (wordId: string) => void
   markWordLearned: (wordId: string) => void
@@ -35,7 +32,6 @@ export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       theme: "dark",
-      selectedLevel: "all",
       selectedCategory: "all",
       favorites: [],
       reviewDifficulty: {},
@@ -45,7 +41,6 @@ export const useAppStore = create<AppState>()(
         studyDates: [],
       },
       setTheme: (theme) => set({ theme }),
-      setSelectedLevel: (selectedLevel) => set({ selectedLevel }),
       setSelectedCategory: (selectedCategory) => set({ selectedCategory }),
       toggleFavorite: (wordId) =>
         set((state) => ({

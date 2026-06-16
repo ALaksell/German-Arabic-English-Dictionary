@@ -20,13 +20,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-100">
       <LanguageAtlasBackground />
-      <aside className="fixed inset-x-3 bottom-3 z-30 rounded-xl border border-slate-300/70 bg-white/95 p-2 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/88 lg:inset-y-4 lg:left-4 lg:right-auto lg:w-72 lg:p-4">
+      <aside className="fixed inset-x-2 bottom-2 z-30 rounded-xl border border-slate-300/70 bg-white/95 p-2 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/88 sm:inset-x-3 sm:bottom-3 lg:inset-y-4 lg:left-4 lg:right-auto lg:w-72 lg:p-4">
         <div className="hidden items-center gap-3 px-2 pb-6 lg:flex">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-950 shadow-lg shadow-cyan-500/20">
             <Sparkles size={22} />
           </div>
           <div>
-            <h1 className="text-lg font-black tracking-tight">DE Dictionary</h1>
+            <h1 className="text-lg font-black">DE Dictionary</h1>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">German-Arabic-English</p>
           </div>
         </div>
@@ -46,19 +46,19 @@ export function AppShell({ children }: { children: ReactNode }) {
               }
             >
               <item.icon size={19} />
-              <span className="hidden lg:inline">{item.label}</span>
+              <span className="sr-only lg:not-sr-only lg:inline">{item.label}</span>
             </NavLink>
           ))}
         </nav>
       </aside>
 
-      <main className="mx-auto min-h-screen max-w-7xl px-4 pb-28 pt-5 lg:ml-80 lg:px-8 lg:pb-10">
-        <header className="mb-6 flex items-center justify-between gap-4">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-cyan-600 dark:text-cyan-300">
+      <main className="mx-auto min-h-screen max-w-7xl px-3 pb-28 pt-4 sm:px-4 sm:pt-5 lg:ml-80 lg:px-8 lg:pb-10">
+        <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase text-cyan-700 dark:text-cyan-300 sm:text-sm">
               German Arabic English
             </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-4xl">
+            <h2 className="mt-2 break-words text-2xl font-black text-slate-950 dark:text-white sm:text-3xl md:text-4xl">
               Comprehensive dictionary
             </h2>
           </div>

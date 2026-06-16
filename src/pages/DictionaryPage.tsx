@@ -4,18 +4,13 @@ import { useAppStore } from "../app/store/useAppStore"
 import { WordCard } from "../features/dictionary/components/WordCard"
 import { categories, words } from "../features/dictionary/data/dictionary"
 import { useDictionarySearch } from "../features/dictionary/hooks/useDictionarySearch"
-import type { Level } from "../features/dictionary/types/dictionary"
 import { titleCase } from "../shared/lib/utils"
 
-const levelOptions: Array<Level | "all"> = ["all", "A1", "A2", "B1", "B2"]
-
 export function DictionaryPage() {
-  const selectedLevel = useAppStore((state) => state.selectedLevel)
   const selectedCategory = useAppStore((state) => state.selectedCategory)
-  const setSelectedLevel = useAppStore((state) => state.setSelectedLevel)
   const setSelectedCategory = useAppStore((state) => state.setSelectedCategory)
   const [query, setQuery] = useState("")
-  const { results, suggestions, total } = useDictionarySearch(query, selectedLevel, selectedCategory)
+  const { results, suggestions, total } = useDictionarySearch(query, selectedCategory)
   const categoryHighlights = useMemo(
     () =>
       categories
@@ -23,8 +18,7 @@ export function DictionaryPage() {
           category,
           count: words.filter((word) => word.category === category).length,
         }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 12),
+        .sort((a, b) => b.count - a.count || a.category.localeCompare(b.category, "en")),
     [],
   )
 
@@ -35,7 +29,7 @@ export function DictionaryPage() {
           <div>
             <h3 className="text-2xl font-black">Dictionary</h3>
             <p className="text-sm text-slate-600 dark:text-slate-300">
-              Search German, English, Arabic, level, category, grammar type, examples, pronunciation, and tags.
+              Search German, English, Arabic, category, grammar type, pronunciation, and tags.
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
@@ -44,27 +38,16 @@ export function DictionaryPage() {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 lg:grid-cols-[1fr_160px_220px]">
+        <div className="mt-5 grid gap-3 lg:grid-cols-[1fr_260px]">
           <label className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={19} />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search Hallo, hello, Arabic meaning, noun, A1..."
+              placeholder="Search Hallo, hello, Arabic meaning, noun, category..."
               className="h-12 w-full rounded-lg border border-slate-400/60 bg-white/95 pl-12 pr-4 font-semibold text-slate-950 outline-none transition placeholder:text-slate-500 focus:border-cyan-600 dark:border-slate-700 dark:bg-slate-950/75 dark:text-white dark:placeholder:text-slate-500"
             />
           </label>
-          <select
-            value={selectedLevel}
-            onChange={(event) => setSelectedLevel(event.target.value as Level | "all")}
-            className="h-12 rounded-lg border border-slate-400/60 bg-white/95 px-3 font-semibold text-slate-950 outline-none focus:border-cyan-600 dark:border-slate-700 dark:bg-slate-950/75 dark:text-white"
-          >
-            {levelOptions.map((level) => (
-              <option key={level} value={level}>
-                {level === "all" ? "Any estimated level" : level}
-              </option>
-            ))}
-          </select>
           <select
             value={selectedCategory}
             onChange={(event) => setSelectedCategory(event.target.value)}
@@ -94,26 +77,45 @@ export function DictionaryPage() {
         ) : null}
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {categoryHighlights.map(({ category, count }) => {
-          const active = selectedCategory === category
-
-          return (
+      <section className="glass rounded-xl p-4">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h3 className="text-lg font-black text-slate-950 dark:text-white">Browse categories</h3>
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              {categories.length} topic filters available.
+            </p>
+          </div>
+          {selectedCategory !== "all" ? (
             <button
-              key={category}
-              onClick={() => setSelectedCategory(active ? "all" : category)}
-              className={`glass rounded-xl p-4 text-left transition hover:-translate-y-0.5 ${
-                active ? "border-cyan-500 ring-2 ring-cyan-500/30" : ""
-              }`}
+              onClick={() => setSelectedCategory("all")}
+              className="text-left text-sm font-black text-cyan-700 hover:text-cyan-900 dark:text-cyan-300 dark:hover:text-cyan-100 sm:text-right"
             >
-              <span className="text-xs font-black uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">
-                Category
-              </span>
-              <h4 className="mt-2 font-black text-slate-950 dark:text-white">{titleCase(category)}</h4>
-              <p className="mt-1 text-sm font-semibold text-slate-600 dark:text-slate-300">{count} words</p>
+              Clear category
             </button>
-          )
-        })}
+          ) : null}
+        </div>
+        <div className="mt-4 grid max-h-[24rem] gap-2 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {categoryHighlights.map(({ category, count }) => {
+            const active = selectedCategory === category
+
+            return (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(active ? "all" : category)}
+                className={`min-h-16 rounded-lg border px-3 py-2 text-left transition hover:-translate-y-0.5 ${
+                  active
+                    ? "border-cyan-500 bg-cyan-500/12 ring-2 ring-cyan-500/25"
+                    : "border-slate-300/80 bg-white/75 hover:border-cyan-400 dark:border-slate-700 dark:bg-slate-950/35"
+                }`}
+              >
+                <h4 className="break-words text-sm font-black text-slate-950 dark:text-white">
+                  {titleCase(category)}
+                </h4>
+                <p className="mt-1 text-xs font-semibold text-slate-600 dark:text-slate-300">{count} words</p>
+              </button>
+            )
+          })}
+        </div>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-2">
