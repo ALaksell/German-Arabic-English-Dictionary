@@ -1,71 +1,37 @@
-# German-Arabic-English Dictionary
+# DE Dictionary Platform
 
-A comprehensive, interactive German language dictionary and learning platform designed for Arabic speakers. Features vocabulary from A1 to B2 CEFR levels with pronunciation, examples, and interactive quizzes.
+A modern React/Vite rebuild of the German-English-Arabic dictionary and language-learning platform.
 
-## Features
+## What Changed
 
-### Dictionary
-- **Multi-Language Support**: German words with English phonetic pronunciation, Arabic phonetic pronunciation, English meaning, and Arabic meaning
-- **Example Sentences**: Each word includes usage examples in German with translations
-- **CEFR Levels**: Vocabulary organized by proficiency levels (A1, A2, B1, B2)
-- **Categories**: Words grouped by topic (greetings, numbers, family, food, colors, verbs, places, professions, clothing)
+This project started as a plain HTML/CSS/JavaScript dictionary. It has now been rebuilt into a React application with a cleaner structure and a stronger foundation:
 
-### Views
-- **Card View**: Mobile-friendly cards with all word information
-- **Table View**: Desktop-optimized table with sortable columns
-- **Flashcard View**: Interactive flashcards for practice
+1. Replaced the old static HTML/CSS/JS files with React, Vite, TypeScript, and Tailwind CSS.
+2. Reorganized the project into app, pages, shared UI, and dictionary feature folders.
+3. Removed the old Learn, Settings, Daily Goal, and low-quality audio/TTS sections.
+4. Added a modern responsive UI with light/dark mode, animated background, dashboard, dictionary, practice, and flashcards.
+5. Converted the dictionary to a category-first experience while keeping estimated CEFR levels as a secondary filter.
+6. Imported and cleaned 1,152 German-English-Arabic entries from the safest source bundle.
+7. Added a repeatable data preparation script and a source audit report.
 
-### Search
-- **Real-Time Search**: Instant filtering across all languages
-- **Multi-Field Search**: Search German, English, Arabic, examples, categories, and tags
-- **Autosuggest**: Top 6 suggestions as you type
-- **Search History**: Recent searches saved locally
-- **Scope Toggle**: Search all words, current level, or current category
+## Run
 
-### Interactive Features
-- **Text-to-Speech**: Listen to German pronunciation (Web Speech API)
-- **Favorites**: Save words for later review (stored in localStorage)
-- **Word of the Day**: Daily rotating featured word
-- **Quiz Mode**: Test your knowledge by level
+```bash
+npm install
+npm run dev
+```
 
-### German Levels Page
-- Detailed breakdown of A1-B2 CEFR levels
-- Grammar points, vocabulary topics, and skills for each level
-- Direct links to filter dictionary by level/category
+## Build
 
-### Accessibility & UX
-- Full keyboard navigation (/ to search, F for favorites, R for random)
-- RTL support for Arabic text
-- Touch-friendly targets (44px minimum)
-- Reduced motion support
-- ARIA labels and semantic HTML
+```bash
+npm run build
+```
 
-## File Structure
+The app uses React, TypeScript, Tailwind CSS, React Router, Zustand, TanStack Query, Framer Motion, Fuse.js, and Recharts.
 
-\`\`\`
-german-dictionary/
-├── index.html              # Main HTML file
-├── README.md               # This file
-├── data/
-│   └── words.json          # Vocabulary data
-├── css/
-│   └── styles.css          # All styles (variables, layout, components, responsive)
-├── js/
-│   ├── data.js             # Data loader with localStorage caching
-│   ├── search.js           # Search engine with debounce and suggestions
-│   ├── tts.js              # Text-to-speech functionality
-│   ├── favorites.js        # Favorites management
-│   ├── quiz.js             # Quiz generator
-│   ├── wotd.js             # Word of the Day
-│   ├── ui.js               # UI rendering (cards, table, flashcards)
-│   ├── categories.js       # Category sidebar
-│   ├── levels.js           # German Levels page
-│   ├── particles.js        # Background particle animation
-│   └── app.js              # Main application controller
-└── assets/
-    └── audio/              # (Optional) Pre-recorded audio files
-\`\`\`
+Current migrated vocabulary lives in `src/features/dictionary/data/words.json` and is enriched by `src/features/dictionary/data/dictionary.ts`.
 
+<<<<<<< Updated upstream
 ## How to Update words.json
 
 The `data/words.json` file contains all vocabulary. Each word follows this schema:
@@ -174,3 +140,6 @@ Set `particlesReduced` to `true` in localStorage, or click the performance toggl
 ## License
 
 This project is for educational purposes. Feel free to modify and share.
+=======
+Raw local source files are intentionally ignored from Git. The cleaned app-ready dictionary data is committed in `src/features/dictionary/data/words.json`.
+>>>>>>> Stashed changes

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.logs/
+.npm-cache/
+.tools/
+sources/
+.tools/node-*.zip
+.tools/node-v*-win-x64/
+
+*.tsbuildinfo
