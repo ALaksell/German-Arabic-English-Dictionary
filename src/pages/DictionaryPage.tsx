@@ -69,6 +69,7 @@ export function DictionaryPage() {
               value={query}
               onChange={(event) => updateQuery(event.target.value)}
               placeholder="Search Hallo, house, شكرا, verb..."
+              dir="auto"
               className="h-12 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-solid)] pl-12 pr-4 font-bold text-[var(--text)] outline-none transition placeholder:text-[var(--subtle)] focus:border-[var(--accent)]"
             />
           </label>
@@ -185,7 +186,7 @@ export function DictionaryPage() {
 
           <section className="glass flex flex-col gap-3 rounded-xl p-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-center text-sm font-bold text-[var(--muted)] sm:text-left">
-              Page {currentPage} of {pageCount} · {results.length} matching entries
+              Page {currentPage} of {pageCount} / {results.length} matching entries
             </p>
             <div className="grid grid-cols-2 gap-2 sm:flex">
               <Button variant="secondary" onClick={() => setPage((value) => Math.max(1, value - 1))} disabled={currentPage === 1}>

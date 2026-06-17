@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react"
-import { ArrowLeft, ArrowRight, RotateCcw, Volume2 } from "lucide-react"
-import { motion } from "framer-motion"
+import { ArrowLeft, ArrowRight, Eye, RotateCcw } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { CategoryIcon } from "../features/dictionary/components/CategoryIcon"
 import { categories, words } from "../features/dictionary/data/dictionary"
-import { useGermanSpeech } from "../features/dictionary/hooks/useGermanSpeech"
 import { titleCase } from "../shared/lib/utils"
 import { Button } from "../shared/ui/Button"
 
@@ -10,7 +10,6 @@ export function FlashcardsPage() {
   const [index, setIndex] = useState(0)
   const [revealed, setRevealed] = useState(false)
   const [category, setCategory] = useState("all")
-  const { speak, isSupported } = useGermanSpeech()
 
   const deck = useMemo(() => {
     if (category === "all") return words
@@ -40,7 +39,7 @@ export function FlashcardsPage() {
           <div>
             <h3 className="text-2xl font-black text-[var(--text)]">Flashcards</h3>
             <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-              Reveal meanings at your pace and listen to legal browser-based German pronunciation.
+              Reveal meanings at your pace with a clean animated study card.
             </p>
           </div>
           <span className="text-sm font-black text-[var(--muted)]">
@@ -65,49 +64,90 @@ export function FlashcardsPage() {
       </section>
 
       {word ? (
-        <section className="mx-auto max-w-3xl">
-          <div className="mb-4 h-3 overflow-hidden rounded-full bg-[var(--surface-soft)]">
-            <div className="h-full rounded-full bg-[var(--accent)] transition-all duration-300" style={{ width: `${progress}%` }} />
+        <section className="mx-auto max-w-4xl">
+          <div className="mb-4 flex items-center gap-3">
+            <div className="h-3 flex-1 overflow-hidden rounded-full bg-[var(--surface-soft)]">
+              <div className="practice-progress h-full rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            </div>
+            <span className="text-sm font-black text-[var(--muted)]">{Math.round(progress)}%</span>
           </div>
 
           <motion.button
             type="button"
             onClick={() => setRevealed((value) => !value)}
-            className="glass min-h-[360px] w-full rounded-xl p-5 text-center transition hover:border-[var(--accent)] sm:min-h-[430px] sm:p-8"
+            className="study-card glass min-h-[420px] w-full overflow-hidden rounded-2xl p-0 text-left transition hover:border-[var(--accent)] sm:min-h-[500px]"
+            whileHover={{ y: -3 }}
             whileTap={{ scale: 0.995 }}
           >
-            <div className="mx-auto flex max-w-2xl flex-col items-center">
-              <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 text-sm font-black text-[var(--accent-strong)]">
-                {titleCase(word.category)}
-              </span>
-
-              <h4 className="mt-8 break-words text-4xl font-black text-[var(--text)] md:text-5xl">{spokenText}</h4>
-
-              <div className="mt-6 flex flex-wrap justify-center gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    speak(spokenText)
-                  }}
-                  disabled={!isSupported}
-                >
-                  <Volume2 size={17} /> Audio
-                </Button>
+            <div className="study-card-glow" />
+            <div className="relative z-10 flex h-full min-h-[420px] flex-col sm:min-h-[500px]">
+              <div className="flex flex-col gap-4 border-b border-[var(--border)] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                <div className="flex min-w-0 items-center gap-3">
+                  <CategoryIcon category={word.category} className="h-12 w-12 rounded-xl" />
+                  <div className="min-w-0">
+                    <p className="text-xs font-black uppercase tracking-wide text-[var(--subtle)]">Study card</p>
+                    <h4 className="break-words text-lg font-black text-[var(--text)]">{titleCase(word.category)}</h4>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 sm:justify-end">
+                  <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 text-xs font-black text-[var(--accent-strong)]">
+                    {word.type}
+                  </span>
+                  <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-black text-[var(--muted)]">
+                    {index + 1} / {deck.length}
+                  </span>
+                </div>
               </div>
 
-              {revealed ? (
-                <div className="mt-8 grid w-full gap-3 rounded-xl bg-[var(--surface-soft)] p-4">
-                  <p className="rtl break-words text-2xl font-black text-[var(--text)]">{word.translations.ar}</p>
-                  <p className="break-words text-lg font-bold text-[var(--muted)]">{word.translations.en}</p>
-                  {word.examples[0]?.de ? (
-                    <p className="mt-2 break-words text-sm font-bold text-[var(--text)]">{word.examples[0].de}</p>
-                  ) : null}
-                </div>
-              ) : (
-                <p className="mt-10 text-sm font-bold text-[var(--muted)]">Tap card to reveal meaning</p>
-              )}
+              <div className="flex flex-1 items-center justify-center p-5 sm:p-8">
+                <AnimatePresence mode="wait">
+                  {!revealed ? (
+                    <motion.div
+                      key={`${word.id}-front`}
+                      initial={{ opacity: 0, rotateY: -18, y: 12 }}
+                      animate={{ opacity: 1, rotateY: 0, y: 0 }}
+                      exit={{ opacity: 0, rotateY: 18, y: -12 }}
+                      transition={{ duration: 0.24 }}
+                      className="mx-auto flex max-w-2xl flex-col items-center text-center"
+                    >
+                      <span className="rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1 text-xs font-black uppercase tracking-wide text-[var(--subtle)]">
+                        German
+                      </span>
+                      <h3 className="mt-8 break-words text-5xl font-black leading-tight text-[var(--text)] sm:text-6xl">
+                        {spokenText}
+                      </h3>
+                      <div className="mt-10 inline-flex items-center gap-2 rounded-full bg-[var(--accent-soft)] px-4 py-2 text-sm font-black text-[var(--accent-strong)]">
+                        <Eye size={17} /> Tap to reveal
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key={`${word.id}-back`}
+                      initial={{ opacity: 0, rotateY: 18, y: 12 }}
+                      animate={{ opacity: 1, rotateY: 0, y: 0 }}
+                      exit={{ opacity: 0, rotateY: -18, y: -12 }}
+                      transition={{ duration: 0.24 }}
+                      className="grid w-full max-w-3xl gap-4"
+                    >
+                      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+                        <p className="text-xs font-black uppercase tracking-wide text-[var(--subtle)]">Arabic</p>
+                        <p className="rtl mt-3 block w-full break-words text-right text-3xl font-black leading-relaxed text-[var(--text)]">
+                          {word.translations.ar}
+                        </p>
+                      </div>
+                      <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+                        <p className="text-xs font-black uppercase tracking-wide text-[var(--subtle)]">English</p>
+                        <p className="mt-3 break-words text-2xl font-black text-[var(--text)]">{word.translations.en}</p>
+                      </div>
+                      {word.examples[0]?.de ? (
+                        <div className="rounded-2xl bg-[var(--surface-soft)] p-4">
+                          <p className="break-words text-sm font-black text-[var(--text)]">{word.examples[0].de}</p>
+                        </div>
+                      ) : null}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.button>
 

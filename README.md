@@ -1,28 +1,35 @@
-# DE Dictionary Platform
+# German Arabic English Dictionary
 
-A modern React/Vite German-English-Arabic dictionary and practice platform for German learners.
+A modern German-Arabic-English dictionary and practice website for German learners.
 
-## Current Experience
+The project focuses on clear vocabulary browsing, Arabic and English meanings, category-based learning, practice questions, and flashcards.
 
-- Category-first dictionary with cleaned German, Arabic, and English entries.
-- Fast search with typo-tolerant suggestions.
-- Paginated word cards to keep large dictionaries smooth on mobile.
-- Legal browser-based German pronunciation through the Web Speech API.
-- Practice rounds with one locked question at a time, feedback, score, and new rounds.
-- Flashcards with a focused Back / Next / Reset flow.
-- Responsive light and dark themes with an early theme loader to prevent white flash.
+## Features
 
-## Stack
+- German, Arabic, and English dictionary entries
+- 4,785 words and phrases
+- 66 organized categories
+- Fast search with typo suggestions
+- Category browsing with icons
+- Clean word cards
+- One-question-at-a-time practice mode
+- Animated flashcards
+- Light and dark mode
+- Responsive layout for desktop, tablet, and mobile
+- Animated gradient background
+- Creator credit and GitHub link
+
+## Tech Stack
 
 - React
 - Vite
 - TypeScript
-- React Router
 - Tailwind CSS
+- React Router
 - Framer Motion
 - Zustand
 - Fuse.js
-- Lucide React
+- Lucide Icons
 
 ## Run Locally
 
@@ -37,46 +44,53 @@ npm run dev
 npm run build
 ```
 
-The production build is emitted to `build/`.
+The production build is created in:
+
+```text
+build/
+```
+
+## Preview Build
+
+```bash
+npm run preview
+```
 
 ## Dictionary Data
 
-Cleaned app-ready vocabulary lives in:
+The main app dictionary file is:
 
 ```text
 src/features/dictionary/data/words.json
 ```
 
-Import metadata lives in:
+Dictionary metadata is stored in:
 
 ```text
 src/features/dictionary/data/meta.json
 ```
 
-The preparation script is:
+Arabic translations were reviewed and updated with:
 
-```text
-scripts/prepare-dictionary-data.mjs
-```
+- 2,850 Arabic translation corrections
+- 127 added words and phrases
 
-The published app data intentionally excludes inaccurate Arabic pronunciation/transliteration fields. German pronunciation is handled legally in the browser through `SpeechSynthesis`.
+Audio pronunciation is currently removed because the available browser voice quality was not good enough for the learning experience.
 
-## Updating Data
+## Data Scripts
 
-Use the preparation script with the source files configured in the script. If a missing-categories JSON file is available, pass it with:
+Prepare dictionary data:
 
 ```bash
-$env:MISSING_CATEGORIES_FILE="C:\path\to\missing_categories_combined_ready.json"
 npm run data:prepare
 ```
 
-The script deduplicates entries, rejects low-quality rows, and writes fresh dictionary data plus metadata.
+Apply Arabic translation review file:
 
-## Notes
-
-- Raw local source files are intentionally not committed.
-- Some translation quality still depends on the quality of the provided source files.
-- Browser speech quality depends on the German voices installed in the user's browser or operating system.
+```bash
+$env:ARABIC_REVIEW_FILE="C:\path\to\dictionary-arabic-translation-review-corrected-and-expanded.json"
+npm run data:apply-arabic-review
+```
 
 ## Credit
 

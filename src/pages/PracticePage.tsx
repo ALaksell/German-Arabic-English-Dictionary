@@ -3,7 +3,6 @@ import { ArrowRight, Check, Languages, RotateCcw, X } from "lucide-react"
 import { useAppStore } from "../app/store/useAppStore"
 import { words } from "../features/dictionary/data/dictionary"
 import type { DictionaryWord } from "../features/dictionary/types/dictionary"
-import { playFeedbackTone } from "../shared/lib/feedbackSounds"
 import { Button } from "../shared/ui/Button"
 
 type PracticeMode = "de-en" | "de-ar" | "ar-de"
@@ -105,7 +104,6 @@ export function PracticePage() {
     setSelectedAnswer(answer)
     setResponses((current) => [...current, { wordId: currentQuestion.word.id, selected: answer, correct }])
     if (correct) markWordLearned(currentQuestion.word.id)
-    playFeedbackTone(correct ? "correct" : "wrong")
   }
 
   function continueRound() {
@@ -160,7 +158,7 @@ export function PracticePage() {
       <section className="mx-auto max-w-3xl">
         <div className="mb-4 flex items-center gap-3">
           <div className="h-3 flex-1 overflow-hidden rounded-full bg-[var(--surface-soft)]">
-            <div className="h-full rounded-full bg-lime-400 transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div className="practice-progress h-full rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
           <span className="text-sm font-black text-[var(--muted)]">
             {roundComplete ? ROUND_SIZE : currentIndex + 1}/{ROUND_SIZE}
@@ -204,7 +202,7 @@ export function PracticePage() {
                     key={option}
                     onClick={() => selectAnswer(option)}
                     disabled={answered}
-                    className={`flex min-h-14 items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left font-black transition ${
+                    className={`flex min-h-14 items-center justify-between gap-3 rounded-xl border px-4 py-3 font-black transition ${
                       showCorrect
                         ? "border-[var(--success)] bg-[var(--success-soft)] text-[var(--text)]"
                         : showWrong
@@ -212,7 +210,9 @@ export function PracticePage() {
                           : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--text)] hover:border-[var(--accent)] disabled:cursor-default"
                     }`}
                   >
-                    <span className={`min-w-0 break-words ${mode === "de-ar" ? "rtl" : ""}`}>{option}</span>
+                    <span className={`min-w-0 flex-1 break-words ${mode === "de-ar" ? "rtl text-right leading-relaxed" : "text-left"}`}>
+                      {option}
+                    </span>
                     {showCorrect ? <Check size={18} /> : showWrong ? <X size={18} /> : null}
                   </button>
                 )
@@ -231,7 +231,10 @@ export function PracticePage() {
                   <p>Correct. Nice work.</p>
                 ) : (
                   <p>
-                    Incorrect. Correct answer: <span className="font-black">{currentQuestion.correctAnswer}</span>
+                    Incorrect. Correct answer:{" "}
+                    <span className={`font-black ${mode === "de-ar" ? "rtl inline-block text-right" : ""}`}>
+                      {currentQuestion.correctAnswer}
+                    </span>
                   </p>
                 )}
               </div>

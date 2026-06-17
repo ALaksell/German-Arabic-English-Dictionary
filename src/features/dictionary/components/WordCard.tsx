@@ -1,17 +1,15 @@
 import { memo } from "react"
 import { motion } from "framer-motion"
-import { Check, Heart, Volume2 } from "lucide-react"
+import { Check, Heart } from "lucide-react"
 import { useAppStore } from "../../../app/store/useAppStore"
 import { cn, titleCase } from "../../../shared/lib/utils"
 import { Button } from "../../../shared/ui/Button"
-import { useGermanSpeech } from "../hooks/useGermanSpeech"
 import type { DictionaryWord } from "../types/dictionary"
 
 function WordCardComponent({ word, index = 0 }: { word: DictionaryWord; index?: number }) {
   const favorites = useAppStore((state) => state.favorites)
   const toggleFavorite = useAppStore((state) => state.toggleFavorite)
   const markWordLearned = useAppStore((state) => state.markWordLearned)
-  const { speak, isSpeaking, isSupported } = useGermanSpeech()
   const isFavorite = favorites.includes(word.id)
   const spokenText = `${word.article ? `${word.article} ` : ""}${word.german}`
 
@@ -41,16 +39,6 @@ function WordCardComponent({ word, index = 0 }: { word: DictionaryWord; index?: 
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => speak(spokenText)}
-            disabled={!isSupported}
-            aria-label={`Play German pronunciation for ${spokenText}`}
-            title={isSupported ? "Play German pronunciation" : "Speech is not supported in this browser"}
-          >
-            <Volume2 size={18} className={cn(isSpeaking && "text-[var(--accent-strong)]")} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={() => toggleFavorite(word.id)}
             aria-label={isFavorite ? "Remove favorite" : "Add favorite"}
           >
@@ -60,11 +48,13 @@ function WordCardComponent({ word, index = 0 }: { word: DictionaryWord; index?: 
       </div>
 
       <div className="mt-5 grid gap-3 rounded-lg bg-[var(--surface-soft)] p-4 sm:grid-cols-2">
-        <div className="min-w-0">
+        <div className="min-w-0 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
           <p className="text-xs font-black uppercase text-[var(--subtle)]">Arabic</p>
-          <p className="rtl mt-1 break-words text-lg font-black text-[var(--text)]">{word.translations.ar}</p>
+          <p className="rtl mt-1 block w-full break-words text-right text-lg font-black leading-relaxed text-[var(--text)]">
+            {word.translations.ar}
+          </p>
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-3">
           <p className="text-xs font-black uppercase text-[var(--subtle)]">English</p>
           <p className="mt-1 break-words font-bold text-[var(--text)]">{word.translations.en}</p>
         </div>
@@ -74,7 +64,11 @@ function WordCardComponent({ word, index = 0 }: { word: DictionaryWord; index?: 
         <div className="mt-5 border-l-2 border-[var(--accent)] pl-4">
           <p className="break-words font-bold text-[var(--text)]">{word.examples[0].de}</p>
           {word.examples[0].en ? <p className="mt-1 break-words text-sm text-[var(--muted)]">{word.examples[0].en}</p> : null}
-          {word.examples[0].ar ? <p className="rtl mt-1 break-words text-sm text-[var(--muted)]">{word.examples[0].ar}</p> : null}
+          {word.examples[0].ar ? (
+            <p className="rtl mt-1 block w-full break-words text-right text-sm leading-relaxed text-[var(--muted)]">
+              {word.examples[0].ar}
+            </p>
+          ) : null}
         </div>
       ) : null}
 

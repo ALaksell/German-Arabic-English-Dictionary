@@ -21,6 +21,15 @@
   --danger-soft: rgba(244, 63, 94, 0.14);
   --warning: #d97706;
   --warning-soft: rgba(245, 158, 11, 0.16);
+  --gradient-bg-start: #f7fcff;
+  --gradient-bg-end: #eef8f4;
+  --gradient-one: 6, 182, 212;
+  --gradient-two: 16, 185, 129;
+  --gradient-three: 245, 158, 11;
+  --gradient-four: 59, 130, 246;
+  --gradient-five: 236, 72, 153;
+  --gradient-opacity: 0.34;
+  --gradient-blend: multiply;
   --nav-active: #0f172a;
   --nav-active-text: #ffffff;
   --shadow: 0 18px 55px rgba(15, 23, 42, 0.1);
@@ -56,6 +65,15 @@
   --danger-soft: rgba(251, 113, 133, 0.16);
   --warning: #fbbf24;
   --warning-soft: rgba(251, 191, 36, 0.14);
+  --gradient-bg-start: #07111f;
+  --gradient-bg-end: #111827;
+  --gradient-one: 34, 211, 238;
+  --gradient-two: 52, 211, 153;
+  --gradient-three: 251, 191, 36;
+  --gradient-four: 96, 165, 250;
+  --gradient-five: 168, 85, 247;
+  --gradient-opacity: 0.42;
+  --gradient-blend: screen;
   --nav-active: #67e8f9;
   --nav-active-text: #082f49;
   --shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
@@ -101,20 +119,90 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
-.language-atlas {
+.background-gradient-animation {
+  overflow: hidden;
   background:
-    radial-gradient(circle at 14% 10%, rgba(6, 182, 212, 0.18), transparent 25rem),
-    radial-gradient(circle at 86% 16%, rgba(245, 158, 11, 0.12), transparent 23rem),
-    radial-gradient(circle at 48% 92%, rgba(16, 185, 129, 0.13), transparent 28rem),
-    linear-gradient(135deg, var(--bg) 0%, #ffffff 44%, var(--bg-soft) 100%);
+    radial-gradient(circle at 50% 0%, rgba(var(--gradient-one), 0.1), transparent 34rem),
+    linear-gradient(135deg, var(--gradient-bg-start), var(--gradient-bg-end));
 }
 
-.dark .language-atlas {
+.background-gradient-animation::before {
+  position: absolute;
+  inset: -35%;
   background:
-    radial-gradient(circle at 14% 10%, rgba(34, 211, 238, 0.2), transparent 28rem),
-    radial-gradient(circle at 86% 16%, rgba(245, 158, 11, 0.14), transparent 24rem),
-    radial-gradient(circle at 48% 92%, rgba(16, 185, 129, 0.17), transparent 28rem),
-    linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 48%, #08101a 100%);
+    radial-gradient(circle at center, rgba(var(--gradient-one), 0.18), transparent 28%),
+    radial-gradient(circle at center, rgba(var(--gradient-two), 0.16), transparent 34%),
+    radial-gradient(circle at center, rgba(var(--gradient-four), 0.14), transparent 42%);
+  filter: blur(80px);
+  opacity: 0.7;
+  content: "";
+  animation: move-horizontal 42s ease-in-out infinite;
+}
+
+.gradient-blob {
+  position: absolute;
+  left: calc(50% - 36vmax);
+  top: calc(50% - 36vmax);
+  width: 72vmax;
+  height: 72vmax;
+  border-radius: 9999px;
+  filter: blur(52px);
+  mix-blend-mode: var(--gradient-blend);
+  opacity: var(--gradient-opacity);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.gradient-blob-first {
+  background: radial-gradient(circle at center, rgba(var(--gradient-one), 0.9), transparent 58%);
+  animation: move-vertical 30s ease infinite;
+}
+
+.gradient-blob-second {
+  background: radial-gradient(circle at center, rgba(var(--gradient-two), 0.78), transparent 60%);
+  transform-origin: calc(50% - 14rem);
+  animation: move-in-circle 24s reverse infinite;
+}
+
+.gradient-blob-third {
+  background: radial-gradient(circle at center, rgba(var(--gradient-three), 0.64), transparent 60%);
+  left: calc(50% - 30vmax);
+  top: calc(50% - 30vmax);
+  width: 60vmax;
+  height: 60vmax;
+  transform-origin: calc(50% + 14rem);
+  animation: move-in-circle 42s linear infinite;
+}
+
+.gradient-blob-fourth {
+  background: radial-gradient(circle at center, rgba(var(--gradient-four), 0.64), transparent 62%);
+  left: calc(50% - 42vmax);
+  top: calc(50% - 34vmax);
+  width: 84vmax;
+  height: 68vmax;
+  animation: move-horizontal 40s ease infinite;
+}
+
+.gradient-blob-fifth {
+  background: radial-gradient(circle at center, rgba(var(--gradient-five), 0.52), transparent 58%);
+  left: calc(50% - 26vmax);
+  top: calc(50% - 26vmax);
+  width: 52vmax;
+  height: 52vmax;
+  transform-origin: calc(50% - 8rem) calc(50% + 10rem);
+  animation: move-in-circle 26s ease infinite;
+}
+
+.gradient-vignette {
+  background:
+    linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.04) 100%),
+    radial-gradient(circle at center, transparent 0%, rgba(7, 17, 31, 0.08) 100%);
+}
+
+.dark .gradient-vignette {
+  background:
+    radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.36) 100%),
+    linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.18) 100%);
 }
 
 .atlas-pattern {
@@ -124,14 +212,6 @@ select {
   background-size: 46px 46px;
   mask-image: linear-gradient(to bottom, black, transparent 72%);
   animation: atlas-drift 32s linear infinite;
-}
-
-.accent-wave {
-  background: linear-gradient(90deg, rgba(34, 211, 238, 0), rgba(34, 211, 238, 0.34), rgba(16, 185, 129, 0.28), rgba(245, 158, 11, 0.22), rgba(34, 211, 238, 0));
-  filter: blur(18px);
-  opacity: 0.52;
-  transform: translate3d(-20%, 0, 0);
-  animation: accent-wave 11s ease-in-out infinite alternate;
 }
 
 .glass {
@@ -172,6 +252,8 @@ select {
 .rtl {
   direction: rtl;
   font-family: Cairo, "Noto Sans Arabic", sans-serif;
+  text-align: right;
+  unicode-bidi: plaintext;
 }
 
 @keyframes atlas-drift {
@@ -198,14 +280,77 @@ select {
   }
 }
 
-@keyframes accent-wave {
-  from {
-    transform: translate3d(-18%, 0, 0);
+@keyframes move-horizontal {
+  0% {
+    transform: translateX(-22%) translateY(-8%);
   }
 
-  to {
-    transform: translate3d(18%, 0, 0);
+  50% {
+    transform: translateX(22%) translateY(8%);
   }
+
+  100% {
+    transform: translateX(-22%) translateY(-8%);
+  }
+}
+
+@keyframes move-in-circle {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.05);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes move-vertical {
+  0% {
+    transform: translateY(-22%);
+  }
+
+  50% {
+    transform: translateY(22%);
+  }
+
+  100% {
+    transform: translateY(-22%);
+  }
+}
+
+.study-card {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.study-card::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(var(--gradient-one), 0.08), transparent 36%),
+    radial-gradient(circle at 78% 18%, rgba(var(--gradient-two), 0.14), transparent 18rem),
+    radial-gradient(circle at 16% 84%, rgba(var(--gradient-five), 0.12), transparent 18rem);
+  content: "";
+}
+
+.study-card-glow {
+  position: absolute;
+  inset: -45%;
+  background:
+    radial-gradient(circle at center, rgba(var(--gradient-one), 0.2), transparent 32%),
+    conic-gradient(from 90deg, transparent, rgba(var(--gradient-two), 0.16), transparent, rgba(var(--gradient-five), 0.14), transparent);
+  filter: blur(34px);
+  opacity: 0.74;
+  animation: move-in-circle 34s linear infinite;
+}
+
+.practice-progress {
+  background: linear-gradient(90deg, var(--accent), var(--success));
+  box-shadow: 0 0 18px var(--accent-soft);
 }
 
 @keyframes menu-pop {
