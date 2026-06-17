@@ -1,18 +1,21 @@
 import { BookOpenCheck, Heart, Layers3, LibraryBig, Tags } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { Link } from "react-router-dom"
 import { useAppStore } from "../app/store/useAppStore"
-import { categories, words } from "../features/dictionary/data/dictionary"
+import dictionaryMeta from "../features/dictionary/data/meta.json"
 import { Button } from "../shared/ui/Button"
 import { StatCard } from "../shared/ui/StatCard"
 
-const categoryData = categories
-  .map((category) => ({
-    category,
-    words: words.filter((word) => word.category === category).length,
-  }))
+const meta = dictionaryMeta as {
+  importedEntries: number
+  categoryCounts: Record<string, number>
+}
+
+const categoryData = Object.entries(meta.categoryCounts)
+  .map(([category, count]) => ({ category, words: count }))
   .sort((a, b) => b.words - a.words)
   .slice(0, 10)
+
+const categoryCount = Object.keys(meta.categoryCounts).length
 
 export function DashboardPage() {
   const favorites = useAppStore((state) => state.favorites)
@@ -23,15 +26,15 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="glass overflow-hidden rounded-xl p-6 md:p-8">
+      <section className="glass soft-glow overflow-hidden rounded-xl p-6 md:p-8">
         <div>
-          <p className="text-sm font-bold uppercase text-cyan-800 dark:text-cyan-300">
+          <p className="text-sm font-black uppercase text-[var(--accent-strong)]">
             Dictionary overview
           </p>
-          <h3 className="mt-3 max-w-4xl text-3xl font-black text-slate-950 dark:text-white md:text-4xl">
+          <h3 className="mt-3 max-w-4xl text-3xl font-black text-[var(--text)] md:text-4xl">
             A focused German-Arabic-English dictionary with practice tools.
           </h3>
-          <p className="mt-4 max-w-3xl text-base font-medium text-slate-800 dark:text-slate-300">
+          <p className="mt-4 max-w-3xl text-base font-medium text-[var(--muted)]">
             Browse vocabulary by topic, search across German, English, and Arabic, then review words with practice and
             flashcards.
           </p>
@@ -50,12 +53,18 @@ export function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           label="Categories"
-          value={categories.length}
+          value={categoryCount}
           detail="Topic groups available for filtering"
           icon={<Tags size={22} />}
+        />
+        <StatCard
+          label="Entries"
+          value={meta.importedEntries}
+          detail="Clean German-Arabic-English entries"
+          icon={<LibraryBig size={22} />}
         />
         <StatCard
           label="Favorites"
@@ -73,19 +82,26 @@ export function DashboardPage() {
 
       <article className="glass rounded-xl p-5">
         <div className="mb-5">
-          <h3 className="text-xl font-black text-slate-950 dark:text-white">Top categories</h3>
-          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Largest topic groups at a glance.</p>
+          <h3 className="text-xl font-black text-[var(--text)]">Top categories</h3>
+          <p className="text-sm font-medium text-[var(--muted)]">Largest topic groups at a glance.</p>
         </div>
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={categoryData} layout="vertical" margin={{ left: 20, right: 12 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(100, 116, 139, 0.28)" />
-              <XAxis type="number" stroke="currentColor" allowDecimals={false} />
-              <YAxis dataKey="category" type="category" stroke="currentColor" width={120} tick={{ fontSize: 11 }} />
-              <Tooltip />
-              <Bar dataKey="words" fill="#0f766e" radius={[0, 8, 8, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="grid gap-3">
+          {categoryData.map((item) => {
+            const max = categoryData[0]?.words ?? 1
+            const width = `${Math.max(8, Math.round((item.words / max) * 100))}%`
+
+            return (
+              <div key={item.category} className="grid gap-2">
+                <div className="flex items-center justify-between gap-3 text-sm">
+                  <span className="min-w-0 truncate font-black text-[var(--text)]">{item.category}</span>
+                  <span className="font-black text-[var(--muted)]">{item.words}</span>
+                </div>
+                <div className="h-3 overflow-hidden rounded-full bg-[var(--surface-soft)]">
+                  <div className="h-full rounded-full bg-[var(--accent)]" style={{ width }} />
+                </div>
+              </div>
+            )
+          })}
         </div>
       </article>
     </div>

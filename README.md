@@ -1,20 +1,30 @@
 # DE Dictionary Platform
 
-A modern React/Vite rebuild of the German-English-Arabic dictionary and language-learning platform.
+A modern React/Vite German-English-Arabic dictionary and practice platform for German learners.
 
-## What Changed
+## Current Experience
 
-This project started as a plain HTML/CSS/JavaScript dictionary. It has now been rebuilt into a React application with a cleaner structure and a stronger foundation:
+- Category-first dictionary with cleaned German, Arabic, and English entries.
+- Fast search with typo-tolerant suggestions.
+- Paginated word cards to keep large dictionaries smooth on mobile.
+- Legal browser-based German pronunciation through the Web Speech API.
+- Practice rounds with one locked question at a time, feedback, score, and new rounds.
+- Flashcards with a focused Back / Next / Reset flow.
+- Responsive light and dark themes with an early theme loader to prevent white flash.
 
-1. Replaced the old static HTML/CSS/JS files with React, Vite, TypeScript, and Tailwind CSS.
-2. Reorganized the project into app, pages, shared UI, and dictionary feature folders.
-3. Removed the old Learn, Settings, Daily Goal, and low-quality audio/TTS sections.
-4. Added a modern responsive UI with light/dark mode, animated background, dashboard, dictionary, practice, and flashcards.
-5. Converted the dictionary to a category-first experience while keeping estimated CEFR levels as a secondary filter.
-6. Imported and cleaned 1,152 German-English-Arabic entries from the safest source bundle.
-7. Added a repeatable data preparation script and a source audit report.
+## Stack
 
-## Run
+- React
+- Vite
+- TypeScript
+- React Router
+- Tailwind CSS
+- Framer Motion
+- Zustand
+- Fuse.js
+- Lucide React
+
+## Run Locally
 
 ```bash
 npm install
@@ -27,119 +37,47 @@ npm run dev
 npm run build
 ```
 
-The app uses React, TypeScript, Tailwind CSS, React Router, Zustand, TanStack Query, Framer Motion, Fuse.js, and Recharts.
+The production build is emitted to `build/`.
 
-Current migrated vocabulary lives in `src/features/dictionary/data/words.json` and is enriched by `src/features/dictionary/data/dictionary.ts`.
+## Dictionary Data
 
-<<<<<<< Updated upstream
-## How to Update words.json
+Cleaned app-ready vocabulary lives in:
 
-The `data/words.json` file contains all vocabulary. Each word follows this schema:
+```text
+src/features/dictionary/data/words.json
+```
 
-\`\`\`json
-{
-  "id": 1,
-  "de": "Guten Morgen",
-  "pro_en": "GOO-ten MOR-gen",
-  "pro_ar": "غُوتِن مُورْغِن",
-  "en": "Good morning",
-  "ar": "صباح الخير",
-  "example_de": "Guten Morgen! Wie geht es dir?",
-  "example_ar": "صباح الخير! كيف حالك؟",
-  "pos": "expression",
-  "category": "greetings",
-  "level": "A1",
-  "tags": ["greeting", "morning", "formal"],
-  "audio": null
-}
-\`\`\`
+Import metadata lives in:
 
-### Fields:
-- `id`: Unique numeric identifier
-- `de`: German word/phrase
-- `pro_en`: English phonetic pronunciation
-- `pro_ar`: Arabic phonetic pronunciation
-- `en`: English translation
-- `ar`: Arabic translation
-- `example_de`: Example sentence in German
-- `example_ar`: Example sentence translation in Arabic
-- `pos`: Part of speech (noun, verb, adj, adverb, expression)
-- `category`: Topic category (greetings, numbers, food, family, verbs, colors, places, professions, clothing)
-- `level`: CEFR level (A1, A2, B1, B2)
-- `tags`: Array of relevant keywords for search
-- `audio`: Optional path to audio file (e.g., "assets/audio/guten-morgen.mp3")
+```text
+src/features/dictionary/data/meta.json
+```
 
-### Adding New Words:
-1. Open `data/words.json`
-2. Add new entry at the end of the array
-3. Ensure unique `id` (increment from last)
-4. Fill all required fields
-5. Clear browser localStorage to reload fresh data (or wait for TTL expiry)
+The preparation script is:
 
-## Deployment Checklist
+```text
+scripts/prepare-dictionary-data.mjs
+```
 
-1. [ ] Verify all files are present in correct structure
-2. [ ] Test `words.json` is valid JSON (use a JSON validator)
-3. [ ] Check all JavaScript files load without errors (browser console)
-4. [ ] Test on mobile device or responsive mode
-5. [ ] Verify TTS works (may require user interaction first)
-6. [ ] Test search functionality across all fields
-7. [ ] Verify favorites save/load correctly
-8. [ ] Test quiz generation for each level
-9. [ ] Check keyboard shortcuts work (/, F, R)
-10. [ ] Verify particle toggle reduces CPU usage
+The published app data intentionally excludes inaccurate Arabic pronunciation/transliteration fields. German pronunciation is handled legally in the browser through `SpeechSynthesis`.
 
-## Testing Notes
+## Updating Data
 
-### Browser Support
-- Chrome 80+ (recommended)
-- Firefox 75+
-- Safari 13+
-- Edge 80+
+Use the preparation script with the source files configured in the script. If a missing-categories JSON file is available, pass it with:
 
-### Known Limitations
-- TTS requires user interaction before first playback (browser security)
-- localStorage limited to ~5MB per domain
-- Particle animation may impact battery on mobile devices (toggle available)
+```bash
+$env:MISSING_CATEGORIES_FILE="C:\path\to\missing_categories_combined_ready.json"
+npm run data:prepare
+```
 
-### Performance
-- JSON cached in localStorage with 24-hour TTL
-- Search debounced at 300ms
-- Virtual rendering for lists > 50 items
-- Particle count reduces on mobile and low-power preference
+The script deduplicates entries, rejects low-quality rows, and writes fresh dictionary data plus metadata.
 
-### Accessibility Testing
-- Tab through all interactive elements
-- Test with screen reader (NVDA/VoiceOver)
-- Verify focus indicators are visible
-- Check color contrast meets WCAG AA
+## Notes
 
-## Customization
+- Raw local source files are intentionally not committed.
+- Some translation quality still depends on the quality of the provided source files.
+- Browser speech quality depends on the German voices installed in the user's browser or operating system.
 
-### Changing Colors
-Edit CSS variables in `css/styles.css`:
-\`\`\`css
-:root {
-  --accent-primary: #06b6d4;    /* Cyan - main accent */
-  --accent-secondary: #8b5cf6;  /* Purple - secondary */
-  --accent-gold: #f59e0b;       /* Gold - Arabic/highlights */
-  --accent-green: #10b981;      /* Green - A1 level */
-  --accent-red: #ef4444;        /* Red - favorites */
-}
-\`\`\`
+## Credit
 
-### Disabling Particles
-Set `particlesReduced` to `true` in localStorage, or click the performance toggle in the header.
-
-### Adding Audio Files
-1. Place MP3 files in `assets/audio/`
-2. Update word entries in `words.json` with audio path
-3. The TTS button will use the audio file if available, otherwise fall back to Web Speech API
-
-
-## License
-
-This project is for educational purposes. Feel free to modify and share.
-=======
-Raw local source files are intentionally ignored from Git. The cleaned app-ready dictionary data is committed in `src/features/dictionary/data/words.json`.
->>>>>>> Stashed changes
+Created by ALaksell.

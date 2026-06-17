@@ -6,9 +6,27 @@
     <meta name="theme-color" content="#101623" />
     <meta
       name="description"
-      content="A modern German-English-Arabic dictionary and language learning platform for A1 to B2 learners."
+      content="A modern German-English-Arabic dictionary and language learning platform for German learners."
     />
     <title>DE Dictionary | German-English-Arabic Learning Platform</title>
+    <script>
+      ;(() => {
+        const storageKey = "de-dictionary-platform"
+        const defaultTheme = "dark"
+        let theme = defaultTheme
+
+        try {
+          const stored = JSON.parse(localStorage.getItem(storageKey) || "{}")
+          theme = stored?.state?.theme === "light" ? "light" : defaultTheme
+        } catch {
+          theme = defaultTheme
+        }
+
+        document.documentElement.classList.toggle("dark", theme === "dark")
+        document.documentElement.style.backgroundColor = theme === "dark" ? "#07111f" : "#f6fbfd"
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#07111f" : "#f6fbfd")
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

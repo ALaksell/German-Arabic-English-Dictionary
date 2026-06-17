@@ -100,7 +100,8 @@ The live website database now imports the clean master file and the missing-cate
 - PONS ready rows held for separate review: 4568
 - PONS review rows held for separate review: 616
 - Obvious Arabic OCR noise inside PONS ready rows: 188
-- Level values remain in the data for future study features, but the current UI no longer exposes A1/A2/B1/B2 filters.
+- CEFR level values are kept only in the source summary for auditing. Published website entries no longer expose A1/A2/B1/B2 fields.
+- Arabic pronunciation/transliteration fields are not published because the generated values were inaccurate.
 
 ## Next Data Pass
 

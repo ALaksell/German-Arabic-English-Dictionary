@@ -7,6 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, "..")
 const sourcesDir = path.join(root, "sources")
 const outputPath = path.join(root, "src", "features", "dictionary", "data", "words.json")
+const metaOutputPath = path.join(root, "src", "features", "dictionary", "data", "meta.json")
 const docsDir = path.join(root, "docs")
 const reportPath = path.join(docsDir, "source-audit.md")
 const generatedDate = "2026-06-16"
@@ -181,68 +182,6 @@ function shouldImport(row) {
   return true
 }
 
-function germanToArabicPronunciation(value) {
-  let text = fixCommonGermanEncoding(value).toLowerCase()
-  if (!text || text.length > 56) return ""
-
-  const replacements = [
-    [/tsch/g, "تش"],
-    [/sch/g, "ش"],
-    [/ch/g, "خ"],
-    [/sp/g, "شب"],
-    [/st/g, "شت"],
-    [/ei/g, "اي"],
-    [/ie/g, "ي"],
-    [/eu/g, "أوي"],
-    [/äu/g, "أوي"],
-    [/au/g, "او"],
-    [/qu/g, "كف"],
-    [/ph/g, "ف"],
-    [/ß/g, "س"],
-    [/ä/g, "ا"],
-    [/ö/g, "و"],
-    [/ü/g, "و"],
-  ]
-
-  for (const [pattern, replacement] of replacements) text = text.replace(pattern, replacement)
-
-  const letters = {
-    a: "ا",
-    b: "ب",
-    c: "ك",
-    d: "د",
-    e: "ه",
-    f: "ف",
-    g: "غ",
-    h: "ه",
-    i: "ي",
-    j: "ي",
-    k: "ك",
-    l: "ل",
-    m: "م",
-    n: "ن",
-    o: "و",
-    p: "ب",
-    q: "ك",
-    r: "ر",
-    s: "س",
-    t: "ت",
-    u: "و",
-    v: "ف",
-    w: "ف",
-    x: "كس",
-    y: "ي",
-    z: "تس",
-  }
-
-  return text
-    .split("")
-    .map((char) => letters[char] ?? char)
-    .join("")
-    .replace(/\s+/g, " ")
-    .trim()
-}
-
 function normalizeCategory(value, fallback = "General") {
   const category = cleanText(value)
   if (!category) return fallback
@@ -252,18 +191,18 @@ function normalizeCategory(value, fallback = "General") {
     .trim()
 }
 
-function buildTags(row, article, source) {
-  return [
+function buildTags(row, article) {
+  return Array.from(
+    new Set([
     cleanText(row.category_en),
     cleanText(row.main_category),
     cleanText(row.category_de),
     cleanText(row.category_ar),
     cleanText(row.all_categories_en),
-    cleanText(row.cefr_level),
     cleanText(row.entry_type),
     article,
-    source,
-  ].filter(Boolean)
+    ].filter(Boolean)),
+  ).slice(0, 6)
 }
 
 function flattenMissingCategories(bundle) {
@@ -300,10 +239,7 @@ function toLegacyEntry(row, index) {
   return {
     id: `dict-${String(index + 1).padStart(5, "0")}`,
     de,
-    lemma: correctedGerman || stripArticle(rawGerman, article, row.lemma || de),
     article: article || undefined,
-    pro_en: de,
-    pro_ar: germanToArabicPronunciation(de),
     en: cleanText(correction.en || row.english),
     ar: cleanArabic(correction.ar || row.arabic),
     example_de: cleanText(row.example_de),
@@ -312,11 +248,28 @@ function toLegacyEntry(row, index) {
     pos,
     category,
     level: mapLevel(row.cefr_level),
-    tags: buildTags(row, article, source),
-    audio: null,
+    tags: buildTags(row, article),
     source,
     quality: cleanText(row.quality_status || row.extraction_status || "ready"),
   }
+}
+
+function compactEntry(entry, index) {
+  const output = {
+    id: `dict-${String(index + 1).padStart(5, "0")}`,
+    de: entry.de,
+    en: entry.en,
+    ar: entry.ar,
+    pos: entry.pos,
+    category: entry.category,
+    tags: entry.tags,
+  }
+
+  if (entry.article) output.article = entry.article
+  if (entry.example_de) output.example_de = entry.example_de
+  if (entry.example_en) output.example_en = entry.example_en
+  if (entry.example_ar) output.example_ar = entry.example_ar
+  return output
 }
 
 function entryScore(entry) {
@@ -388,16 +341,16 @@ for (const entry of transformed) {
   if (!current || entryScore(entry) > entryScore(current)) bestByMeaning.set(key, entry)
 }
 
-const words = [...bestByMeaning.values()]
+const scoredWords = [...bestByMeaning.values()]
   .sort((a, b) => {
     const category = cleanText(a.category).localeCompare(cleanText(b.category), "en")
     if (category !== 0) return category
     return cleanText(a.de).localeCompare(cleanText(b.de), "de")
   })
-  .map((entry, index) => ({ ...entry, id: `dict-${String(index + 1).padStart(5, "0")}` }))
 
-const levelCounts = levelCountsFor(words)
-const categoryCounts = categoryCountsFor(words)
+const words = scoredWords.map(compactEntry)
+const levelCounts = levelCountsFor(scoredWords)
+const categoryCounts = categoryCountsFor(scoredWords)
 const rejectedRows = sourceRows.length - importableRows.length
 const duplicateMeaningsSkipped = importableRows.length - words.length
 
@@ -425,6 +378,22 @@ const output = {
 
 fs.mkdirSync(path.dirname(outputPath), { recursive: true })
 fs.writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`, "utf8")
+fs.writeFileSync(
+  metaOutputPath,
+  `${JSON.stringify(
+    {
+      version: output.version,
+      lastUpdated: output.lastUpdated,
+      importedEntries: words.length,
+      categoryCounts,
+      rejectedRows,
+      duplicateMeaningsSkipped,
+    },
+    null,
+    2,
+  )}\n`,
+  "utf8",
+)
 
 const suspiciousPonsReady = ponsReady.filter((row) => hasBadArabicNoise(row.arabic)).length
 const report = `# Source Audit
@@ -466,7 +435,8 @@ ${Object.entries(categoryCounts)
 - PONS ready rows held for separate review: ${ponsReady.length}
 - PONS review rows held for separate review: ${ponsReview.length}
 - Obvious Arabic OCR noise inside PONS ready rows: ${suspiciousPonsReady}
-- Level values remain in the data for future study features, but the current UI no longer exposes A1/A2/B1/B2 filters.
+- CEFR level values are kept only in the source summary for auditing. Published website entries no longer expose A1/A2/B1/B2 fields.
+- Arabic pronunciation/transliteration fields are not published because the generated values were inaccurate.
 
 ## Next Data Pass
 
