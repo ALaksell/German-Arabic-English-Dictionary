@@ -105,8 +105,8 @@ export function PracticePage() {
               onClick={() => reset(item.id)}
               className={`min-w-0 rounded-xl border p-4 text-left transition ${
                 mode === item.id
-                  ? "border-cyan-500 bg-cyan-500/12 text-cyan-900 dark:text-cyan-100"
-                  : "border-slate-300/70 bg-white/70 text-slate-700 hover:border-cyan-400 dark:border-slate-700 dark:bg-slate-950/35 dark:text-slate-200"
+                  ? "border-blue-500 bg-blue-50 text-blue-900 dark:bg-blue-500/15 dark:text-blue-100 dark:border-blue-400"
+                  : "border-slate-300 bg-white text-slate-700 hover:border-blue-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-500"
               }`}
             >
               <div className="flex items-center gap-2 break-words font-black">
@@ -118,7 +118,7 @@ export function PracticePage() {
         </div>
 
         {savedScore !== null ? (
-          <div className="mt-5 rounded-xl border border-emerald-400/60 bg-emerald-500/12 p-4 font-bold text-emerald-800 dark:text-emerald-200">
+          <div className="mt-5 rounded-xl border border-green-300 bg-green-50 p-4 font-bold text-green-800 dark:border-green-600 dark:bg-green-500/15 dark:text-green-200">
             Saved score: {savedScore}% - {correct} correct answers out of {questions.length}.
           </div>
         ) : null}
@@ -133,7 +133,7 @@ export function PracticePage() {
           return (
             <article key={question.word.id} className="glass rounded-xl p-5">
               <div className="min-w-0">
-                <p className="text-sm font-bold text-cyan-700 dark:text-cyan-300">Question {index + 1}</p>
+                <p className="text-sm font-bold text-blue-700 dark:text-blue-300">Question {index + 1}</p>
                 <h4 className={`mt-2 break-words text-2xl font-black ${mode === "ar-de" ? "rtl" : ""}`}>
                   {getPrompt(question.word, mode)}
                 </h4>
@@ -151,10 +151,10 @@ export function PracticePage() {
                       onClick={() => setAnswers((current) => ({ ...current, [question.word.id]: option }))}
                       className={`flex min-h-12 items-center justify-between gap-3 rounded-lg border px-4 py-2 text-left font-semibold transition ${
                         isAnswered && optionIsCorrect
-                          ? "border-emerald-500 bg-emerald-500/12 text-emerald-800 dark:text-emerald-200"
+                          ? "border-green-500 bg-green-50 text-green-800 dark:border-green-600 dark:bg-green-500/15 dark:text-green-200"
                           : selectedOption
-                            ? "border-rose-500 bg-rose-500/12 text-rose-800 dark:text-rose-200"
-                          : "border-slate-300/70 bg-white/75 text-slate-800 hover:border-cyan-500 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-100"
+                            ? "border-red-500 bg-red-50 text-red-800 dark:border-red-600 dark:bg-red-500/15 dark:text-red-200"
+                          : "border-slate-300 bg-white text-slate-800 hover:border-blue-400 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-blue-500"
                       }`}
                     >
                       <span className={`min-w-0 break-words ${mode === "de-ar" ? "rtl" : ""}`}>{option}</span>

@@ -16,7 +16,7 @@ export function WordCard({ word, index = 0 }: { word: DictionaryWord; index?: nu
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.025, 0.25) }}
-      className="glass group rounded-xl p-5 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/50"
+      className="glass group rounded-xl p-5 transition duration-300 hover:-translate-y-1 hover:border-blue-400/50"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -68,7 +68,7 @@ export function WordCard({ word, index = 0 }: { word: DictionaryWord; index?: nu
       {word.examples.length ? (
         <div className="mt-5 space-y-3">
           {word.examples.slice(0, 2).map((example) => (
-            <div key={example.de} className="border-l-2 border-cyan-500 pl-4">
+            <div key={example.de} className="border-l-2 border-blue-500 pl-4">
               <p className="break-words font-semibold text-slate-900 dark:text-slate-100">{example.de}</p>
               {example.en ? (
                 <p className="mt-1 break-words text-sm text-slate-600 dark:text-slate-300">{example.en}</p>

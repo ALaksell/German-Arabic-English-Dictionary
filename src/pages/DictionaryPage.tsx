@@ -45,13 +45,13 @@ export function DictionaryPage() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search Hallo, hello, Arabic meaning, noun, category..."
-              className="h-12 w-full rounded-lg border border-slate-400/60 bg-white/95 pl-12 pr-4 font-semibold text-slate-950 outline-none transition placeholder:text-slate-500 focus:border-cyan-600 dark:border-slate-700 dark:bg-slate-950/75 dark:text-white dark:placeholder:text-slate-500"
+              className="h-12 w-full rounded-lg border border-slate-300 bg-white pl-12 pr-4 font-semibold text-slate-950 outline-none transition placeholder:text-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
             />
           </label>
           <select
             value={selectedCategory}
             onChange={(event) => setSelectedCategory(event.target.value)}
-            className="h-12 rounded-lg border border-slate-400/60 bg-white/95 px-3 font-semibold text-slate-950 outline-none focus:border-cyan-600 dark:border-slate-700 dark:bg-slate-950/75 dark:text-white"
+            className="h-12 rounded-lg border border-slate-300 bg-white px-3 font-semibold text-slate-950 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
           >
             <option value="all">All categories</option>
             {categories.map((category) => (
@@ -68,7 +68,7 @@ export function DictionaryPage() {
               <button
                 key={suggestion}
                 onClick={() => setQuery(suggestion)}
-                className="rounded-full border border-slate-400/60 bg-white/80 px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:border-cyan-500 hover:text-cyan-700 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-200"
+                className="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-700 hover:bg-blue-50 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-500 dark:hover:text-blue-300"
               >
                 {suggestion}
               </button>
@@ -88,7 +88,7 @@ export function DictionaryPage() {
           {selectedCategory !== "all" ? (
             <button
               onClick={() => setSelectedCategory("all")}
-              className="text-left text-sm font-black text-cyan-700 hover:text-cyan-900 dark:text-cyan-300 dark:hover:text-cyan-100 sm:text-right"
+              className="text-left text-sm font-black text-blue-700 hover:text-blue-900 dark:text-blue-300 dark:hover:text-blue-100 sm:text-right"
             >
               Clear category
             </button>
@@ -104,8 +104,8 @@ export function DictionaryPage() {
                 onClick={() => setSelectedCategory(active ? "all" : category)}
                 className={`min-h-16 rounded-lg border px-3 py-2 text-left transition hover:-translate-y-0.5 ${
                   active
-                    ? "border-cyan-500 bg-cyan-500/12 ring-2 ring-cyan-500/25"
-                    : "border-slate-300/80 bg-white/75 hover:border-cyan-400 dark:border-slate-700 dark:bg-slate-950/35"
+                    ? "border-blue-500 bg-blue-50 ring-2 ring-blue-500/20 dark:bg-blue-500/15 dark:border-blue-400"
+                    : "border-slate-300 bg-white hover:border-blue-300 dark:border-slate-600 dark:bg-slate-900 dark:hover:border-blue-500"
                 }`}
               >
                 <h4 className="break-words text-sm font-black text-slate-950 dark:text-white">

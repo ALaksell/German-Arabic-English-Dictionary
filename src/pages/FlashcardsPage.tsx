@@ -62,7 +62,7 @@ export function FlashcardsPage() {
           <select
             value={category}
             onChange={(event) => resetDeck(event.target.value)}
-            className="h-12 w-full rounded-lg border border-slate-400/60 bg-white/95 px-3 font-semibold text-slate-950 outline-none focus:border-cyan-600 dark:border-slate-700 dark:bg-slate-950/75 dark:text-white"
+            className="h-12 w-full rounded-lg border border-slate-300 bg-white px-3 font-semibold text-slate-950 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
           >
             <option value="all">All categories</option>
             {categories.map((item) => (
@@ -86,7 +86,7 @@ export function FlashcardsPage() {
             <div className={flipped ? "[transform:rotateY(180deg)]" : ""}>
               {!flipped ? (
                 <>
-                  <span className="text-sm font-black text-cyan-700 dark:text-cyan-300">
+                  <span className="text-sm font-black text-blue-700 dark:text-blue-300">
                     {titleCase(word.category)}
                   </span>
                   <h4 className="mt-6 break-words text-4xl font-black text-slate-950 dark:text-white md:text-5xl">

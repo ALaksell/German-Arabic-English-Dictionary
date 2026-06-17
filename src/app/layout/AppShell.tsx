@@ -20,13 +20,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen text-slate-900 dark:text-slate-100">
       <LanguageAtlasBackground />
-      <aside className="fixed inset-x-2 bottom-2 z-30 rounded-xl border border-slate-300/70 bg-white/95 p-2 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/88 sm:inset-x-3 sm:bottom-3 lg:inset-y-4 lg:left-4 lg:right-auto lg:w-72 lg:p-4">
+      <aside className="fixed inset-x-2 bottom-2 z-30 rounded-lg border border-slate-300 bg-white/97 p-2 shadow-lg backdrop-blur-sm dark:border-slate-700 dark:bg-slate-950/90 sm:inset-x-3 sm:bottom-3 lg:inset-y-4 lg:left-4 lg:right-auto lg:w-72 lg:p-4">
         <div className="hidden items-center gap-3 px-2 pb-6 lg:flex">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-emerald-400 text-slate-950 shadow-lg shadow-cyan-500/20">
+          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/20">
             <Sparkles size={22} />
           </div>
           <div>
-            <h1 className="text-lg font-black">DE Dictionary</h1>
+            <h1 className="text-lg font-bold">DE Dictionary</h1>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">German-Arabic-English</p>
           </div>
         </div>
@@ -40,8 +40,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                 cn(
                   "flex min-h-11 items-center justify-center gap-3 rounded-lg px-3 text-sm font-semibold transition lg:justify-start",
                   isActive
-                    ? "bg-slate-950 text-white shadow-lg shadow-slate-950/15 dark:bg-cyan-400 dark:text-slate-950"
-                    : "text-slate-600 hover:bg-slate-900/6 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white",
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/20 dark:bg-blue-500 dark:text-white"
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white",
                 )
               }
             >

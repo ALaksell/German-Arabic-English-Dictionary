@@ -25,7 +25,7 @@ export function DashboardPage() {
     <div className="space-y-6">
       <section className="glass overflow-hidden rounded-xl p-6 md:p-8">
         <div>
-          <p className="text-sm font-bold uppercase text-cyan-800 dark:text-cyan-300">
+          <p className="text-sm font-bold uppercase text-blue-700 dark:text-blue-300">
             Dictionary overview
           </p>
           <h3 className="mt-3 max-w-4xl text-3xl font-black text-slate-950 dark:text-white md:text-4xl">
@@ -83,7 +83,7 @@ export function DashboardPage() {
               <XAxis type="number" stroke="currentColor" allowDecimals={false} />
               <YAxis dataKey="category" type="category" stroke="currentColor" width={120} tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Bar dataKey="words" fill="#0f766e" radius={[0, 8, 8, 0]} />
+              <Bar dataKey="words" fill="#3b82f6" radius={[0, 8, 8, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
