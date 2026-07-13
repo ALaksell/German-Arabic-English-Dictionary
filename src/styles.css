@@ -119,78 +119,57 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
-.background-gradient-animation {
+.site-study-background {
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 0%, rgba(var(--gradient-one), 0.1), transparent 34rem),
+    radial-gradient(circle at 50% 0%, rgba(var(--gradient-one), 0.12), transparent 32rem),
     linear-gradient(135deg, var(--gradient-bg-start), var(--gradient-bg-end));
 }
 
-.background-gradient-animation::before {
+.site-study-background::before {
   position: absolute;
-  inset: -35%;
+  inset: 0;
   background:
-    radial-gradient(circle at center, rgba(var(--gradient-one), 0.18), transparent 28%),
-    radial-gradient(circle at center, rgba(var(--gradient-two), 0.16), transparent 34%),
-    radial-gradient(circle at center, rgba(var(--gradient-four), 0.14), transparent 42%);
-  filter: blur(80px);
-  opacity: 0.7;
+    linear-gradient(135deg, rgba(var(--gradient-one), 0.09), transparent 38%),
+    radial-gradient(circle at 78% 18%, rgba(var(--gradient-two), 0.16), transparent 26rem),
+    radial-gradient(circle at 16% 84%, rgba(var(--gradient-five), 0.14), transparent 28rem);
   content: "";
-  animation: move-horizontal 42s ease-in-out infinite;
 }
 
-.gradient-blob {
+.site-card-glow {
   position: absolute;
-  left: calc(50% - 36vmax);
-  top: calc(50% - 36vmax);
-  width: 72vmax;
-  height: 72vmax;
+  inset: -42%;
   border-radius: 9999px;
   filter: blur(52px);
   mix-blend-mode: var(--gradient-blend);
-  opacity: var(--gradient-opacity);
-  transform-origin: center center;
+  opacity: calc(var(--gradient-opacity) + 0.18);
   will-change: transform;
 }
 
-.gradient-blob-first {
-  background: radial-gradient(circle at center, rgba(var(--gradient-one), 0.9), transparent 58%);
-  animation: move-vertical 30s ease infinite;
+.site-card-glow-primary {
+  background:
+    radial-gradient(circle at center, rgba(var(--gradient-one), 0.26), transparent 31%),
+    conic-gradient(from 90deg, transparent, rgba(var(--gradient-two), 0.22), transparent, rgba(var(--gradient-five), 0.18), transparent);
+  animation: move-in-circle 38s linear infinite;
 }
 
-.gradient-blob-second {
-  background: radial-gradient(circle at center, rgba(var(--gradient-two), 0.78), transparent 60%);
-  transform-origin: calc(50% - 14rem);
-  animation: move-in-circle 24s reverse infinite;
+.site-card-glow-secondary {
+  inset: -30%;
+  background:
+    radial-gradient(circle at 28% 24%, rgba(var(--gradient-four), 0.18), transparent 22%),
+    radial-gradient(circle at 72% 70%, rgba(var(--gradient-three), 0.16), transparent 24%);
+  animation: move-horizontal 36s ease-in-out infinite;
 }
 
-.gradient-blob-third {
-  background: radial-gradient(circle at center, rgba(var(--gradient-three), 0.64), transparent 60%);
-  left: calc(50% - 30vmax);
-  top: calc(50% - 30vmax);
-  width: 60vmax;
-  height: 60vmax;
-  transform-origin: calc(50% + 14rem);
-  animation: move-in-circle 42s linear infinite;
-}
-
-.gradient-blob-fourth {
-  background: radial-gradient(circle at center, rgba(var(--gradient-four), 0.64), transparent 62%);
-  left: calc(50% - 42vmax);
-  top: calc(50% - 34vmax);
-  width: 84vmax;
-  height: 68vmax;
-  animation: move-horizontal 40s ease infinite;
-}
-
-.gradient-blob-fifth {
-  background: radial-gradient(circle at center, rgba(var(--gradient-five), 0.52), transparent 58%);
-  left: calc(50% - 26vmax);
-  top: calc(50% - 26vmax);
-  width: 52vmax;
-  height: 52vmax;
-  transform-origin: calc(50% - 8rem) calc(50% + 10rem);
-  animation: move-in-circle 26s ease infinite;
+.site-card-sheen {
+  position: absolute;
+  inset: -18%;
+  background:
+    linear-gradient(115deg, transparent 0 28%, rgba(var(--gradient-one), 0.09) 42%, transparent 58%),
+    linear-gradient(245deg, transparent 0 34%, rgba(var(--gradient-two), 0.08) 48%, transparent 66%);
+  filter: blur(28px);
+  opacity: 0.86;
+  animation: move-vertical 34s ease-in-out infinite;
 }
 
 .gradient-vignette {
