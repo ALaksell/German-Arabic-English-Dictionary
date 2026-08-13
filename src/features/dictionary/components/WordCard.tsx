@@ -11,6 +11,7 @@ function WordCardComponent({ word, index = 0 }: { word: DictionaryWord; index?: 
   const toggleFavorite = useAppStore((state) => state.toggleFavorite)
   const markWordLearned = useAppStore((state) => state.markWordLearned)
   const isFavorite = favorites.includes(word.id)
+  const isLearned = useAppStore((state) => state.progress.wordsLearned.includes(word.id))
   const spokenText = `${word.article ? `${word.article} ` : ""}${word.german}`
 
   return (
@@ -73,8 +74,17 @@ function WordCardComponent({ word, index = 0 }: { word: DictionaryWord; index?: 
       ) : null}
 
       <div className="mt-5 flex justify-end">
-        <Button className="w-full sm:w-auto" variant="secondary" size="sm" onClick={() => markWordLearned(word.id)}>
-          <Check size={16} /> Mark learned
+        <Button
+          className={cn(
+            "w-full sm:w-auto",
+            isLearned && "border-[var(--success)] bg-[var(--success-soft)] text-[var(--success)] hover:border-[var(--success)]",
+          )}
+          variant="secondary"
+          size="sm"
+          disabled={isLearned}
+          onClick={() => markWordLearned(word.id)}
+        >
+          <Check size={16} /> {isLearned ? "Learned" : "Mark learned"}
         </Button>
       </div>
     </motion.article>
